@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BIS Sahayak — Bureau of Indian Standards AI Assistant
 
-## Getting Started
+BIS Sahayak is an intelligent, bilingual AI-powered assistant designed for the Bureau of Indian Standards (BIS) that helps manufacturers, MSMEs, exporters, and consumers effortlessly navigate Indian Standards, find applicable compliance schemes, verify test reports against standard parameters, locate certified testing laboratories across India, and track published standards and regulatory updates.
 
-First, run the development server:
+## Tech Stack
+
+- **Framework**: [Next.js](https://nextjs.org/) (App Router, React 19)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Language**: TypeScript
+- **AI / LLM**: [Groq SDK](https://groq.com/) with high-speed inference (`openai/gpt-oss-120b` / `llama-3.1-70b-versatile`)
+- **Data Layer**: Local structured JSON standard registry (`data/standards.json`)
+
+## Getting Started Locally
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure environment variables
+
+Create a `.env.local` file in the root directory and add your Groq API key:
+
+```env
+GROQ_API_KEY=gsk_your_groq_api_key_here
+```
+
+### 3. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Key Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Executive Landing Page**: High-impact introductory portal with real BIS dataset metrics (22,000+ standards, 4 certification schemes, MSME-first), 3-step "How it works" overview, and quick module launchers.
+2. **Ask a Question**: Natural language Q&A grounded in official Indian Standards with citations, a "Simple Explanation Mode" for non-technical users, and an interactive **"Show Visual Summary"** button powered by Mermaid.js.
+3. **Find My Standard**: Product-to-standard recommendation engine identifying mandatory vs. voluntary schemes, related MSME benefits, and on-demand flowchart generation.
+4. **Visual Standard Explainer**: Generates live Mermaid.js flowcharts (flowchart TD) illustrating acceptance thresholds for technical standards (e.g. Haritaki limits) or procedural workflows for service standards (e.g. Yoga Centre requirements).
+5. **Certification Journey**: Visual 4-step progress tracker for BIS certification lifecycle.
+6. **Compliance Check**: Automated pass/fail test report analyzer checking observed lab values against official IS limits.
+7. **Find a Lab**: Directory of BIS-recognized testing laboratories with city and specialization details.
+8. **Standard Status Tracker**: Filterable directory of all standards with live sector search and alert subscriptions.
+9. **Scheme Guide**: Comprehensive visual breakdown of ISI Mark, CRS, Hallmarking, and SDOC.
+10. **Bilingual Support & Responsiveness**: Instant toggle between English and Hindi (हिन्दी) with responsive mobile drawer navigation.
+11. **About & Architecture Modal**: Clear disclosure of prototype scope and production API integration path with BIS Manak Online.

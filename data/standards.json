@@ -1,0 +1,258 @@
+[
+  {
+    "is_number": "IS 18087:2022",
+    "title": "Haritaki (Terminalia chebula Retz.) - Specification",
+    "sector": "Ayush",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Specifies requirements for Haritaki fruit used as an ingredient in Ayurvedic medicines, including foreign matter, loss on drying, ash values and extractive values.",
+    "parameters": {
+      "Foreign_Matter_max_%": 1.0,
+      "Loss_on_Drying_max_%": 12.0,
+      "Total_Ash_max_%": 6.0,
+      "Acid_Insoluble_Ash_max_%": 3.0,
+      "Alcohol_Soluble_Extractive_min_%": 40.0,
+      "Water_Soluble_Extractive_min_%": 60.0
+    }
+  },
+  {
+    "is_number": "IS 18098:2022",
+    "title": "Ashvagandha (Withania somnifera L. Dunal) - Specification",
+    "sector": "Ayush",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Specifies requirements for Ashvagandha root used as an ingredient in Ayurvedic medicines.",
+    "parameters": {
+      "Foreign_Matter_max_%": 2.0,
+      "Loss_on_Drying_max_%": 12.0,
+      "Total_Ash_max_%": 7.0,
+      "Acid_Insoluble_Ash_max_%": 1.0,
+      "Alcohol_Soluble_Extractive_min_%": 15.0,
+      "Water_Soluble_Extractive_min_%": 7.0
+    }
+  },
+  {
+    "is_number": "IS 18082:2022",
+    "title": "Haridra (Curcuma longa L.) - Specification",
+    "sector": "Ayush",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Specifies requirements for Haridra (turmeric) rhizome used as an ingredient in Ayurvedic medicines.",
+    "parameters": {
+      "Foreign_Matter_max_%": 2.0,
+      "Loss_on_Drying_max_%": 12.0,
+      "Total_Ash_max_%": 9.0,
+      "Acid_Insoluble_Ash_max_%": 1.0,
+      "Alcohol_Soluble_Extractive_min_%": 8.0,
+      "Water_Soluble_Extractive_min_%": 12.0
+    }
+  },
+  {
+    "is_number": "IS 18085:2022",
+    "title": "Amalaki (Phyllanthus emblica L.) Dried Fruit - Specification",
+    "sector": "Ayush",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Specifies requirements for dried Amalaki fruit used as an ingredient in Ayurvedic medicines.",
+    "parameters": {
+      "Foreign_Matter_max_%": 3.0,
+      "Loss_on_Drying_max_%": 12.0,
+      "Total_Ash_max_%": 7.0,
+      "Acid_Insoluble_Ash_max_%": 2.0,
+      "Alcohol_Soluble_Extractive_min_%": 40.0,
+      "Water_Soluble_Extractive_min_%": 50.0
+    }
+  },
+  {
+    "is_number": "IS 17873:2022",
+    "title": "Cotton Yoga Mat - Specification",
+    "sector": "Ayush",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Specifies constructional/physical and chemical requirements for cotton yoga mats including yarn count, thickness, weight, breaking strength, pH of aqueous extract, colour fastness and anti-bacterial activity.",
+    "parameters": {
+      "Fiber": "100% Cotton",
+      "pH_of_aqueous_extract": "6.0-8.0",
+      "Anti_bacterial_activity": "Required"
+    }
+  },
+  {
+    "is_number": "IS 18089 (Part 1):2022",
+    "title": "Panchakarma Equipment Part 1 - Droni - Specification",
+    "sector": "Ayush",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Specifies material, shape, dimensions, manufacture, finish and test requirements for Droni (Panchakarma treatment table) equipment.",
+    "parameters": {
+      "Material": "Wood/framework as specified",
+      "Adhesion_test": "Required",
+      "Marking_and_Packaging": "Required"
+    }
+  },
+  {
+    "is_number": "IS 18089 (Part 2):2022",
+    "title": "Panchakarma Equipment Part 2 - Shirodhara Yantra - Specification",
+    "sector": "Ayush",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Specifies material, shape, dimensions, manufacture, finish and staining test requirements for Shirodhara yantra equipment used in Panchakarma.",
+    "parameters": {
+      "Material": "Stand, vessel and chain as specified",
+      "Staining_test": "Required"
+    }
+  },
+  {
+    "is_number": "IS 17913:2022",
+    "title": "Yoga Centre - Service Requirements",
+    "sector": "Ayush",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Specifies general and specific service requirements for Yoga centres including management, class conduct, physical environment/safety, admission, feedback and complaint handling processes.",
+    "parameters": {
+      "Scope": "Service quality requirements, not a product test standard"
+    }
+  },
+  {
+    "is_number": "IS 17924:2022",
+    "title": "Determination of Pesticide Residue in Herbal Materials - Test Method",
+    "sector": "Ayush",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Specifies test methods to determine pesticide residue limits in herbs used as ingredients in traditional medicines.",
+    "parameters": {
+      "Scope": "Test method standard for pesticide residue limits"
+    }
+  },
+  {
+    "is_number": "FAD/26/20495",
+    "title": "Stainless Steel Neti Pot - Specification",
+    "sector": "Ayush",
+    "status": "Under Publication",
+    "scheme": "Voluntary",
+    "scope": "Draft specification for stainless steel Neti Pot used in Shatkarma/Ayurvedic nasal cleansing procedures.",
+    "parameters": {
+      "Scope": "Draft - parameters not yet finalized"
+    }
+  },
+  {
+    "is_number": "IS 17942:2022",
+    "title": "Tourism and Related Services - Medical Tourism - Service Requirements",
+    "sector": "Ayush / Tourism",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Modified adoption of ISO 22525:2020 with inclusion of Ayush-related provisions, covering procedure options, treatment facilities, tourism arrangements, insurance and related provisions for Medical Value Tourism.",
+    "parameters": {
+      "Scope": "Service requirement standard, no chemical/physical parameters"
+    }
+  },
+  {
+    "is_number": "IS 4151:2015",
+    "title": "Protective Helmets for Two-Wheeler Riders - Specification",
+    "sector": "Automotive/Consumer Safety",
+    "status": "Published",
+    "scheme": "Mandatory (CRS)",
+    "scope": "Specifies requirements for protective helmets for two-wheeler riders including shock absorption, penetration resistance, retention system strength and field of vision.",
+    "parameters": {
+      "Shock_absorption": "Required",
+      "Penetration_resistance": "Required",
+      "Retention_system_strength": "Required"
+    }
+  },
+  {
+    "is_number": "IS 9873 (Part 1)",
+    "title": "Safety of Toys Part 1 - Mechanical and Physical Properties",
+    "sector": "Toys",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Specifies mechanical and physical safety requirements for toys, including small parts, sharp edges/points and structural integrity, to prevent choking and injury hazards.",
+    "parameters": {
+      "Small_parts_test": "Required",
+      "Sharp_edge_test": "Required"
+    }
+  },
+  {
+    "is_number": "IS 14543:2021",
+    "title": "Packaged Drinking Water (Other than Packaged Natural Mineral Water) - Specification",
+    "sector": "Food/Water",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Specifies quality, safety and labelling requirements for packaged drinking water including microbiological, chemical and physical parameters.",
+    "parameters": {
+      "pH": "6.5-8.5",
+      "Total_Dissolved_Solids_max_mg_l": 500,
+      "Coliform": "Absent/100ml"
+    }
+  },
+  {
+    "is_number": "IS 15410",
+    "title": "Liquefied Petroleum Gas (LPG) Cylinders - Specification",
+    "sector": "Industrial/Consumer Safety",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Specifies material, design, construction, testing and marking requirements for LPG cylinders used for domestic and commercial purposes.",
+    "parameters": {
+      "Hydrostatic_test": "Required",
+      "Material": "Steel as specified",
+      "Valve_fitting": "Required"
+    }
+  },
+  {
+    "is_number": "IS 269:2015",
+    "title": "Ordinary Portland Cement - Specification",
+    "sector": "Construction/Cement",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Specifies physical and chemical requirements for 33 grade Ordinary Portland Cement, including compressive strength, setting time and fineness.",
+    "parameters": {
+      "Compressive_strength_28day_min_MPa": 33,
+      "Initial_setting_time_min_minutes": 30,
+      "Fineness_min_m2_kg": 225
+    }
+  },
+  {
+    "is_number": "IS 302 (Part 1)",
+    "title": "Safety of Household and Similar Electrical Appliances - General Requirements",
+    "sector": "Electronics/Electrical",
+    "status": "Published",
+    "scheme": "Mandatory (CRS)",
+    "scope": "Specifies general safety requirements for household and similar electrical appliances covering protection against electric shock, mechanical hazards and heat resistance.",
+    "parameters": {
+      "Electric_shock_protection": "Required",
+      "Temperature_rise_test": "Required"
+    }
+  },
+  {
+    "is_number": "IS 1554 (Part 1)",
+    "title": "PVC Insulated (Heavy Duty) Electric Cables - Specification",
+    "sector": "Electronics/Electrical",
+    "status": "Published",
+    "scheme": "Mandatory (CRS)",
+    "scope": "Specifies requirements for PVC insulated heavy duty electric cables for voltages up to 1100V.",
+    "parameters": {
+      "Insulation_resistance": "Required",
+      "Voltage_rating_V": 1100
+    }
+  },
+  {
+    "is_number": "IS 1608",
+    "title": "Metallic Materials - Tensile Testing at Ambient Temperature",
+    "sector": "Metals/Testing Methods",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Specifies the method for tensile testing of metallic materials at room temperature, used as a reference test method across many product standards.",
+    "parameters": {
+      "Scope": "Test method standard, referenced by other product standards"
+    }
+  },
+  {
+    "is_number": "IS 17424 (Part 1):2020",
+    "title": "Glossary of Ayurvedic Terminology - Fundamental Principles",
+    "sector": "Ayush",
+    "status": "Published",
+    "scheme": "Not applicable (Terminology standard)",
+    "scope": "Standardized terminology for fundamental principles of Ayurveda, part of a 5-part glossary series.",
+    "parameters": {
+      "Scope": "Terminology standard, no test parameters"
+    }
+  }
+]

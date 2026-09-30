@@ -21,7 +21,7 @@
     "sector": "Ayush",
     "status": "Published",
     "scheme": "Voluntary",
-    "scope": "Specifies requirements for Ashvagandha root used as an ingredient in Ayurvedic medicines.",
+    "scope": "Specifies requirements for Ashvagandha root used as an ingredient in Ayurvedic medicines, including total ash, acid-insoluble ash and withanolide extractive content.",
     "parameters": {
       "Foreign_Matter_max_%": 2.0,
       "Loss_on_Drying_max_%": 12.0,
@@ -37,7 +37,7 @@
     "sector": "Ayush",
     "status": "Published",
     "scheme": "Voluntary",
-    "scope": "Specifies requirements for Haridra (turmeric) rhizome used as an ingredient in Ayurvedic medicines.",
+    "scope": "Specifies requirements for Haridra (turmeric) rhizome used as an ingredient in Ayurvedic medicines and dietary supplements.",
     "parameters": {
       "Foreign_Matter_max_%": 2.0,
       "Loss_on_Drying_max_%": 12.0,
@@ -53,7 +53,7 @@
     "sector": "Ayush",
     "status": "Published",
     "scheme": "Voluntary",
-    "scope": "Specifies requirements for dried Amalaki fruit used as an ingredient in Ayurvedic medicines.",
+    "scope": "Specifies requirements for dried Amalaki fruit used as an ingredient in Ayurvedic medicines and rasayanas.",
     "parameters": {
       "Foreign_Matter_max_%": 3.0,
       "Loss_on_Drying_max_%": 12.0,
@@ -64,195 +64,563 @@
     }
   },
   {
-    "is_number": "IS 17873:2022",
-    "title": "Cotton Yoga Mat - Specification",
+    "is_number": "IS 18104:2022",
+    "title": "Guduchi (Tinospora cordifolia) Stem - Specification",
     "sector": "Ayush",
     "status": "Published",
     "scheme": "Voluntary",
-    "scope": "Specifies constructional/physical and chemical requirements for cotton yoga mats including yarn count, thickness, weight, breaking strength, pH of aqueous extract, colour fastness and anti-bacterial activity.",
+    "scope": "Specifies quality and identity criteria for Guduchi stem used in immunomodulatory and antipyretic formulations.",
     "parameters": {
-      "Fiber": "100% Cotton",
-      "pH_of_aqueous_extract": "6.0-8.0",
-      "Anti_bacterial_activity": "Required"
-    }
-  },
-  {
-    "is_number": "IS 18089 (Part 1):2022",
-    "title": "Panchakarma Equipment Part 1 - Droni - Specification",
-    "sector": "Ayush",
-    "status": "Published",
-    "scheme": "Voluntary",
-    "scope": "Specifies material, shape, dimensions, manufacture, finish and test requirements for Droni (Panchakarma treatment table) equipment.",
-    "parameters": {
-      "Material": "Wood/framework as specified",
-      "Adhesion_test": "Required",
-      "Marking_and_Packaging": "Required"
-    }
-  },
-  {
-    "is_number": "IS 18089 (Part 2):2022",
-    "title": "Panchakarma Equipment Part 2 - Shirodhara Yantra - Specification",
-    "sector": "Ayush",
-    "status": "Published",
-    "scheme": "Voluntary",
-    "scope": "Specifies material, shape, dimensions, manufacture, finish and staining test requirements for Shirodhara yantra equipment used in Panchakarma.",
-    "parameters": {
-      "Material": "Stand, vessel and chain as specified",
-      "Staining_test": "Required"
-    }
-  },
-  {
-    "is_number": "IS 17913:2022",
-    "title": "Yoga Centre - Service Requirements",
-    "sector": "Ayush",
-    "status": "Published",
-    "scheme": "Voluntary",
-    "scope": "Specifies general and specific service requirements for Yoga centres including management, class conduct, physical environment/safety, admission, feedback and complaint handling processes.",
-    "parameters": {
-      "Scope": "Service quality requirements, not a product test standard"
-    }
-  },
-  {
-    "is_number": "IS 17924:2022",
-    "title": "Determination of Pesticide Residue in Herbal Materials - Test Method",
-    "sector": "Ayush",
-    "status": "Published",
-    "scheme": "Voluntary",
-    "scope": "Specifies test methods to determine pesticide residue limits in herbs used as ingredients in traditional medicines.",
-    "parameters": {
-      "Scope": "Test method standard for pesticide residue limits"
-    }
-  },
-  {
-    "is_number": "FAD/26/20495",
-    "title": "Stainless Steel Neti Pot - Specification",
-    "sector": "Ayush",
-    "status": "Under Publication",
-    "scheme": "Voluntary",
-    "scope": "Draft specification for stainless steel Neti Pot used in Shatkarma/Ayurvedic nasal cleansing procedures.",
-    "parameters": {
-      "Scope": "Draft - parameters not yet finalized"
+      "Foreign_Matter_max_%": 2.0,
+      "Loss_on_Drying_max_%": 10.0,
+      "Total_Ash_max_%": 8.0,
+      "Acid_Insoluble_Ash_max_%": 1.5,
+      "Alcohol_Soluble_Extractive_min_%": 3.0,
+      "Water_Soluble_Extractive_min_%": 11.0
     }
   },
   {
     "is_number": "IS 17942:2022",
-    "title": "Tourism and Related Services - Medical Tourism - Service Requirements",
-    "sector": "Ayush / Tourism",
+    "title": "Service Requirements for Yoga Centers",
+    "sector": "Ayush / Services",
     "status": "Published",
     "scheme": "Voluntary",
-    "scope": "Modified adoption of ISO 22525:2020 with inclusion of Ayush-related provisions, covering procedure options, treatment facilities, tourism arrangements, insurance and related provisions for Medical Value Tourism.",
+    "scope": "Specifies requirements for service provision at Yoga Centers including infrastructure, trainer competency, hygiene, emergency care, and traditional adherence.",
     "parameters": {
-      "Scope": "Service requirement standard, no chemical/physical parameters"
+      "Min_Trainer_Certification_Level": 2,
+      "Floor_Space_per_Practitioner_sqm": 3.5,
+      "First_Aid_Kit_Availability": 1,
+      "Periodic_Hygiene_Audit_Months": 3
+    }
+  },
+  {
+    "is_number": "IS 17873:2022",
+    "title": "Cotton Yoga Mats - Specification",
+    "sector": "Ayush / Textiles",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Specifies requirements for woven and non-woven cotton yoga mats for non-slip, sweat-absorbent, eco-friendly physical yoga practice.",
+    "parameters": {
+      "Length_min_mm": 1800,
+      "Width_min_mm": 600,
+      "Thickness_min_mm": 4,
+      "Tensile_Strength_Warp_min_N": 400,
+      "Color_Fastness_to_Washing": 4
+    }
+  },
+  {
+    "is_number": "IS 14543:2016",
+    "title": "Packaged Drinking Water (Other Than Packaged Natural Mineral Water) - Specification",
+    "sector": "Food & Water",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Specifies physical, chemical, and microbiological requirements and methods of test for packaged drinking water offered for sale in sealed containers. Mandatory ISI certification under Food Safety & BIS regulations.",
+    "parameters": {
+      "TDS_max_mg_l": 500.0,
+      "pH_Range_min": 6.5,
+      "pH_Range_max": 8.5,
+      "Turbidity_max_NTU": 2.0,
+      "Total_Hardness_as_CaCO3_max_mg_l": 200.0,
+      "Lead_max_mg_l": 0.01,
+      "Arsenic_max_mg_l": 0.01,
+      "E_coli_in_250ml": 0
+    }
+  },
+  {
+    "is_number": "IS 13428:2005",
+    "title": "Packaged Natural Mineral Water - Specification",
+    "sector": "Food & Water",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Prescribes requirements and methods of sampling and test for natural mineral water collected directly from natural or drilled underground sources.",
+    "parameters": {
+      "TDS_min_mg_l": 150.0,
+      "TDS_max_mg_l": 700.0,
+      "Nitrate_max_mg_l": 45.0,
+      "Fluoride_max_mg_l": 1.5,
+      "Barium_max_mg_l": 1.0,
+      "Coliform_Bacteria_in_250ml": 0
+    }
+  },
+  {
+    "is_number": "IS 10500:2012",
+    "title": "Drinking Water Specification (Piped & Municipal Supply)",
+    "sector": "Food & Water",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Prescribes requirements and methods of sampling and test for drinking water intended for human consumption across municipal piped supplies.",
+    "parameters": {
+      "TDS_max_mg_l": 500.0,
+      "Turbidity_max_NTU": 1.0,
+      "pH_min": 6.5,
+      "pH_max": 8.5,
+      "Chloride_max_mg_l": 250.0,
+      "Sulphate_max_mg_l": 200.0
+    }
+  },
+  {
+    "is_number": "IS 1165:2002",
+    "title": "Milk Powder - Specification",
+    "sector": "Food & Dairy",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Prescribes requirements and methods of sampling and test for whole milk powder, partly skimmed milk powder and skimmed milk powder.",
+    "parameters": {
+      "Moisture_max_%": 4.0,
+      "Total_Ash_max_%": 8.2,
+      "Milk_Fat_min_%": 26.0,
+      "Insolubility_Index_max_ml": 1.5,
+      "Bacterial_Count_per_g_max": 50000
+    }
+  },
+  {
+    "is_number": "IS 13252 (Part 1):2010",
+    "title": "Information Technology Equipment - Safety - General Requirements (Laptops, Adapters, Chargers)",
+    "sector": "Electronics & IT Goods",
+    "status": "Published",
+    "scheme": "Mandatory (CRS)",
+    "scope": "Applicable to mains-powered or battery-powered information technology equipment, including computer power adapters, laptops, printers, scanners and display units under MEITY Compulsory Registration Scheme.",
+    "parameters": {
+      "Insulation_Resistance_min_MOhm": 10.0,
+      "Electric_Strength_Test_kV": 3.0,
+      "Touch_Current_max_mA": 0.25,
+      "Working_Voltage_Isolation": 1,
+      "Fire_Enclosure_Flammability_Rating": 94
+    }
+  },
+  {
+    "is_number": "IS 16046 (Part 2):2018",
+    "title": "Secondary Cells and Batteries Containing Alkaline or Other Non-Acid Electrolytes (Lithium-ion Batteries)",
+    "sector": "Electronics & Energy Storage",
+    "status": "Published",
+    "scheme": "Mandatory (CRS)",
+    "scope": "Requirements and tests for the safe operation of portable secondary lithium cells and batteries used in smartphones, laptops, power banks, and tablets.",
+    "parameters": {
+      "Continuous_Charging_Voltage_Tolerance_V": 0.05,
+      "Overcharge_Test_Protection": 1,
+      "External_Short_Circuit_Pass": 1,
+      "Thermal_Abuse_130C_Pass": 1,
+      "Drop_Test_Height_m": 1.0
+    }
+  },
+  {
+    "is_number": "IS 616:2017",
+    "title": "Audio, Video and Similar Electronic Apparatus - Safety Requirements (Smart TVs, Soundbars)",
+    "sector": "Electronics & IT Goods",
+    "status": "Published",
+    "scheme": "Mandatory (CRS)",
+    "scope": "Applies to electronic apparatus designed to be fed from mains, supply apparatus, batteries or remote feed, intended for reception, generation or recording of audio/video.",
+    "parameters": {
+      "Surge_Withstand_Voltage_kV": 2.5,
+      "Dielectric_Strength_Test": 1,
+      "Creepage_Distance_min_mm": 5.0,
+      "Temperature_Rise_Coils_max_K": 65
+    }
+  },
+  {
+    "is_number": "IS 10322 (Part 5/Sec 1):2012",
+    "title": "Luminaires - Particular Requirements - Fixed General Purpose Luminaires (LED Tube Lights & Panels)",
+    "sector": "Lighting & Electrical",
+    "status": "Published",
+    "scheme": "Mandatory (CRS)",
+    "scope": "Specifies safety and constructional requirements for fixed general purpose luminaires using LED modules, for supply voltages not exceeding 1000 V.",
+    "parameters": {
+      "Creepage_Distance_min_mm": 4.0,
+      "Earth_Continuity_Resistance_max_Ohm": 0.5,
+      "Insulation_Resistance_min_MOhm": 2.0,
+      "Luminous_Efficacy_min_lm_W": 90.0
+    }
+  },
+  {
+    "is_number": "IS 15885 (Part 2/Sec 13):2012",
+    "title": "Lamp Controlgear - Particular Requirements for DC or AC Supplied Electronic Controlgear for LED Modules",
+    "sector": "Lighting & Electrical",
+    "status": "Published",
+    "scheme": "Mandatory (CRS)",
+    "scope": "Covers electronic controlgear (LED drivers) for use on d.c. supplies up to 250 V and a.c. supplies up to 1000 V at 50 Hz or 60 Hz.",
+    "parameters": {
+      "Overvoltage_Protection_kV": 4.0,
+      "Power_Factor_min": 0.9,
+      "Total_Harmonic_Distortion_max_%": 15.0,
+      "Efficiency_min_%": 85.0
     }
   },
   {
     "is_number": "IS 4151:2015",
     "title": "Protective Helmets for Two-Wheeler Riders - Specification",
-    "sector": "Automotive/Consumer Safety",
+    "sector": "Automotive & Road Safety",
     "status": "Published",
-    "scheme": "Mandatory (CRS)",
-    "scope": "Specifies requirements for protective helmets for two-wheeler riders including shock absorption, penetration resistance, retention system strength and field of vision.",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Prescribes requirements regarding material, construction, workmanship, finish and performance for protective helmets for everyday motorcycle and two-wheeler riders. Mandatory ISI certification under MoRTH notification.",
     "parameters": {
-      "Shock_absorption": "Required",
-      "Penetration_resistance": "Required",
-      "Retention_system_strength": "Required"
+      "Peak_Impact_Acceleration_max_g": 300.0,
+      "Retention_System_Dynamic_Displacement_max_mm": 35.0,
+      "Retention_Residual_Displacement_max_mm": 15.0,
+      "Visor_Luminous_Transmittance_min_%": 85.0,
+      "Weight_max_g": 1500.0
     }
   },
   {
-    "is_number": "IS 9873 (Part 1)",
-    "title": "Safety of Toys Part 1 - Mechanical and Physical Properties",
-    "sector": "Toys",
+    "is_number": "IS 17017 (Part 1):2018",
+    "title": "Electric Vehicle Conductive Charging System - General Requirements (EV Chargers & Wallboxes)",
+    "sector": "Automotive & Clean Tech",
     "status": "Published",
     "scheme": "Mandatory (ISI Mark)",
-    "scope": "Specifies mechanical and physical safety requirements for toys, including small parts, sharp edges/points and structural integrity, to prevent choking and injury hazards.",
+    "scope": "Applies to on-board and off-board equipment for charging electric road vehicles at standard a.c. supply voltages up to 1000 V and at d.c. voltages up to 1500 V.",
     "parameters": {
-      "Small_parts_test": "Required",
-      "Sharp_edge_test": "Required"
+      "IP_Ingress_Protection_Outdoor": 54,
+      "Insulation_Resistance_min_MOhm": 10.0,
+      "Dielectric_Voltage_Withstand_V": 2500,
+      "Residual_Current_Detection_mA": 30,
+      "Operating_Temperature_max_C": 55
     }
   },
   {
-    "is_number": "IS 14543:2021",
-    "title": "Packaged Drinking Water (Other than Packaged Natural Mineral Water) - Specification",
-    "sector": "Food/Water",
+    "is_number": "IS 17017 (Part 2/Sec 1):2020",
+    "title": "Plugs, Socket-Outlets, Vehicle Connectors and Vehicle Inlets - Conductive Charging of Electric Vehicles",
+    "sector": "Automotive & Clean Tech",
     "status": "Published",
     "scheme": "Mandatory (ISI Mark)",
-    "scope": "Specifies quality, safety and labelling requirements for packaged drinking water including microbiological, chemical and physical parameters.",
+    "scope": "Specifies dimensional interchangeability, safety pins, mechanical strength, and environmental testing for EV charging connectors and plugs.",
     "parameters": {
-      "pH": "6.5-8.5",
-      "Total_Dissolved_Solids_max_mg_l": 500,
-      "Coliform": "Absent/100ml"
+      "Insertion_Extraction_Force_max_N": 100.0,
+      "Mating_Cycles_Durability_min": 10000,
+      "Temperature_Rise_Terminals_max_K": 50.0
     }
   },
   {
-    "is_number": "IS 15410",
-    "title": "Liquefied Petroleum Gas (LPG) Cylinders - Specification",
-    "sector": "Industrial/Consumer Safety",
+    "is_number": "IS 14283:2018",
+    "title": "Lead-Acid Starter Batteries for Motor Vehicles - Specification",
+    "sector": "Automotive & Battery",
     "status": "Published",
     "scheme": "Mandatory (ISI Mark)",
-    "scope": "Specifies material, design, construction, testing and marking requirements for LPG cylinders used for domestic and commercial purposes.",
+    "scope": "Applies to lead-acid batteries with a nominal voltage of 12 V, used primarily as a power source for the starting and ignition of internal combustion engines.",
     "parameters": {
-      "Hydrostatic_test": "Required",
-      "Material": "Steel as specified",
-      "Valve_fitting": "Required"
+      "Cold_Cranking_Amperes_Discharge_Sec_min": 30,
+      "Reserve_Capacity_min_Minutes": 60,
+      "Charge_Acceptance_Ratio_min": 2.0,
+      "Electrolyte_Retention_Vibration_Pass": 1
+    }
+  },
+  {
+    "is_number": "IS 2553 (Part 2):2019",
+    "title": "Safety Glass - Specification - Part 2: For Road Transport Vehicles (Toughened & Laminated Windshields)",
+    "sector": "Automotive Safety",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Requirements for toughened safety glass and laminated safety glass windshields and windows intended for automotive vehicles.",
+    "parameters": {
+      "Optical_Transmission_Windshield_min_%": 70.0,
+      "Optical_Transmission_Side_min_%": 50.0,
+      "Fragmentation_Count_min_per_50x50mm": 40,
+      "Drop_Ball_Impact_Pass": 1
+    }
+  },
+  {
+    "is_number": "IS 1489 (Part 1):2015",
+    "title": "Portland Pozzolana Cement - Specification - Part 1: Fly Ash Based (PPC)",
+    "sector": "Construction & Cement",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Covers the manufacture, chemical and physical requirements of fly ash based Portland Pozzolana Cement for structural concrete, plastering, and masonry.",
+    "parameters": {
+      "Fineness_Specific_Surface_min_m2_kg": 300.0,
+      "Initial_Setting_Time_min_minutes": 30,
+      "Final_Setting_Time_max_minutes": 600,
+      "Compressive_Strength_3days_min_MPa": 16.0,
+      "Compressive_Strength_7days_min_MPa": 22.0,
+      "Compressive_Strength_28days_min_MPa": 33.0,
+      "Drying_Shrinkage_max_%": 0.15,
+      "Loss_on_Ignition_max_%": 5.0
     }
   },
   {
     "is_number": "IS 269:2015",
-    "title": "Ordinary Portland Cement - Specification",
-    "sector": "Construction/Cement",
+    "title": "Ordinary Portland Cement (OPC 33, 43, 53 Grade) - Specification",
+    "sector": "Construction & Cement",
     "status": "Published",
     "scheme": "Mandatory (ISI Mark)",
-    "scope": "Specifies physical and chemical requirements for 33 grade Ordinary Portland Cement, including compressive strength, setting time and fineness.",
+    "scope": "Covers manufacture and chemical and physical requirements of 33, 43 and 53 grade Ordinary Portland Cement.",
     "parameters": {
-      "Compressive_strength_28day_min_MPa": 33,
-      "Initial_setting_time_min_minutes": 30,
-      "Fineness_min_m2_kg": 225
+      "Compressive_Strength_28days_min_MPa": 53.0,
+      "Initial_Setting_Time_min_minutes": 30,
+      "Final_Setting_Time_max_minutes": 600,
+      "Soundness_Le_Chatelier_max_mm": 10.0,
+      "Total_Chloride_max_%": 0.1,
+      "Insoluble_Residue_max_%": 5.0
     }
   },
   {
-    "is_number": "IS 302 (Part 1)",
-    "title": "Safety of Household and Similar Electrical Appliances - General Requirements",
-    "sector": "Electronics/Electrical",
+    "is_number": "IS 1786:2008",
+    "title": "High Strength Deformed Steel Bars and Wires for Concrete Reinforcement (TMT Rebars)",
+    "sector": "Metals & Structural Steel",
     "status": "Published",
-    "scheme": "Mandatory (CRS)",
-    "scope": "Specifies general safety requirements for household and similar electrical appliances covering protection against electric shock, mechanical hazards and heat resistance.",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Covers requirements of deformed steel bars and wires for use as reinforcement in concrete in grades Fe 415, Fe 415D, Fe 500, Fe 500D, Fe 550, Fe 550D, and Fe 600.",
     "parameters": {
-      "Electric_shock_protection": "Required",
-      "Temperature_rise_test": "Required"
+      "Yield_Stress_0_2_Proof_min_MPa": 500.0,
+      "Tensile_Strength_min_MPa": 565.0,
+      "Elongation_Gauge_Length_min_%": 16.0,
+      "Total_Elongation_at_Max_Force_min_%": 5.0,
+      "Carbon_max_%": 0.25,
+      "Sulphur_Phosphorus_combined_max_%": 0.075
     }
   },
   {
-    "is_number": "IS 1554 (Part 1)",
-    "title": "PVC Insulated (Heavy Duty) Electric Cables - Specification",
-    "sector": "Electronics/Electrical",
+    "is_number": "IS 2062:2011",
+    "title": "Hot Rolled Medium and High Tensile Structural Steel - Specification",
+    "sector": "Metals & Structural Steel",
     "status": "Published",
-    "scheme": "Mandatory (CRS)",
-    "scope": "Specifies requirements for PVC insulated heavy duty electric cables for voltages up to 1100V.",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Covers requirements for structural steel plates, shapes, sections, and flats for bridges, high-rise buildings, and heavy engineering.",
     "parameters": {
-      "Insulation_resistance": "Required",
-      "Voltage_rating_V": 1100
+      "Tensile_Strength_min_MPa": 410.0,
+      "Yield_Strength_min_MPa": 250.0,
+      "Elongation_min_%": 23.0,
+      "Charpy_V_Notch_Impact_20C_min_J": 27.0
     }
   },
   {
-    "is_number": "IS 1608",
-    "title": "Metallic Materials - Tensile Testing at Ambient Temperature",
-    "sector": "Metals/Testing Methods",
+    "is_number": "IS 9873 (Part 1):2019",
+    "title": "Safety of Toys - Part 1: Mechanical and Physical Properties",
+    "sector": "Toys & Child Safety",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Prescribes requirements and methods of test for toys intended for use by children in various age groups from birth to 14 years. Focuses on small parts, sharp edges, and choking hazards.",
+    "parameters": {
+      "Small_Parts_Cylinder_Choking_Pass": 1,
+      "Sharp_Edges_Pass": 1,
+      "Sharp_Points_Pass": 1,
+      "Drop_Test_138cm_Impact_Pass": 1,
+      "Torque_Tension_Seam_Pass": 1
+    }
+  },
+  {
+    "is_number": "IS 9873 (Part 2):2017",
+    "title": "Safety of Toys - Part 2: Flammability Requirements",
+    "sector": "Toys & Child Safety",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Specifies categories of flammable materials prohibited in all toys and requirements concerning flammability of certain toys when subjected to a small flame source.",
+    "parameters": {
+      "Flammability_Rate_max_mm_s": 30.0,
+      "No_Flash_Surface_Effect": 1,
+      "Self_Extinguishing_Pass": 1
+    }
+  },
+  {
+    "is_number": "IS 9873 (Part 3):2020",
+    "title": "Safety of Toys - Part 3: Migration of Certain Elements (Toxic Heavy Metals)",
+    "sector": "Toys & Child Safety",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Prescribes maximum acceptable levels and methods of sampling and extraction prior to analysis for migration of heavy metal elements from toy materials.",
+    "parameters": {
+      "Lead_Migration_max_mg_kg": 90.0,
+      "Barium_Migration_max_mg_kg": 1000.0,
+      "Cadmium_Migration_max_mg_kg": 75.0,
+      "Chromium_Migration_max_mg_kg": 60.0,
+      "Mercury_Migration_max_mg_kg": 60.0,
+      "Arsenic_Migration_max_mg_kg": 25.0
+    }
+  },
+  {
+    "is_number": "IS 15644:2006",
+    "title": "Safety of Electric Toys - Specification",
+    "sector": "Toys & Child Safety",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Specifies requirements for the safety of toys that have at least one function dependent on electricity, supply voltages up to 24 V.",
+    "parameters": {
+      "Max_Operating_Voltage_V": 24.0,
+      "Insulation_Resistance_min_MOhm": 5.0,
+      "Accessible_Surface_Temp_max_C": 45.0,
+      "Short_Circuit_Protection_Pass": 1
+    }
+  },
+  {
+    "is_number": "IS 16289:2014",
+    "title": "Medical Face Masks - Specification (3-Ply Surgical Masks)",
+    "sector": "Medical Devices & PPE",
     "status": "Published",
     "scheme": "Voluntary",
-    "scope": "Specifies the method for tensile testing of metallic materials at room temperature, used as a reference test method across many product standards.",
+    "scope": "Specifies construction, design, performance requirements and test methods for medical face masks intended to limit transmission of infective agents.",
     "parameters": {
-      "Scope": "Test method standard, referenced by other product standards"
+      "Bacterial_Filtration_Efficiency_min_%": 98.0,
+      "Differential_Pressure_max_Pa_cm2": 29.4,
+      "Sub_Micron_Particulate_Filtration_min_%": 95.0,
+      "Splash_Resistance_Pressure_min_mmHg": 120
     }
   },
   {
-    "is_number": "IS 17424 (Part 1):2020",
-    "title": "Glossary of Ayurvedic Terminology - Fundamental Principles",
-    "sector": "Ayush",
+    "is_number": "IS 9473:2002",
+    "title": "Respiratory Protective Devices - Filtering Half Masks to Protect Against Particles (N95 / FFP2)",
+    "sector": "Medical Devices & PPE",
     "status": "Published",
-    "scheme": "Not applicable (Terminology standard)",
-    "scope": "Standardized terminology for fundamental principles of Ayurveda, part of a 5-part glossary series.",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Specifies requirements for filtering half masks used as respiratory protective devices against particulates.",
     "parameters": {
-      "Scope": "Terminology standard, no test parameters"
+      "Sodium_Chloride_Penetration_max_%": 6.0,
+      "Paraffin_Oil_Penetration_max_%": 6.0,
+      "Inhalation_Breathing_Resistance_max_mbar": 2.4,
+      "Exhalation_Breathing_Resistance_max_mbar": 3.0,
+      "Total_Inward_Leakage_max_%": 8.0
+    }
+  },
+  {
+    "is_number": "IS 15298 (Part 2):2016",
+    "title": "Personal Protective Equipment - Safety Footwear (Steel Toe Industrial Shoes)",
+    "sector": "Footwear & PPE",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Specifies basic and additional requirements for safety footwear incorporating safety toecaps designed to provide protection against impact.",
+    "parameters": {
+      "Toecap_Impact_Resistance_min_J": 200.0,
+      "Toecap_Compression_Resistance_min_kN": 15.0,
+      "Upper_Tear_Strength_min_N": 120.0,
+      "Outsole_Abrasion_Resistance_max_mm3": 150.0,
+      "Outsole_Slip_Resistance_Coefficient_min": 0.32
+    }
+  },
+  {
+    "is_number": "IS 15844 (Part 1):2021",
+    "title": "Sports Footwear - Specification - Part 1: General Purpose",
+    "sector": "Footwear & Consumer Goods",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Specifies requirements and testing methods for athletic and sports footwear under the Quality Control Order for Footwear.",
+    "parameters": {
+      "Upper_Sole_Adhesion_Strength_min_N_mm": 3.0,
+      "Sole_Flexing_Resistance_max_cut_mm": 4.0,
+      "Heel_Energy_Absorption_min_J": 20.0
+    }
+  },
+  {
+    "is_number": "IS 14286:2010",
+    "title": "Crystalline Silicon Terrestrial Photovoltaic (PV) Modules - Design Qualification and Type Approval",
+    "sector": "Solar Energy",
+    "status": "Published",
+    "scheme": "Mandatory (CRS)",
+    "scope": "Lays down requirements for design qualification and type approval of terrestrial crystalline silicon photovoltaic modules for long-term operation in open-air climates.",
+    "parameters": {
+      "Insulation_Resistance_Dry_min_MOhm_m2": 40.0,
+      "Wet_Leakage_Current_min_MOhm_m2": 40.0,
+      "Mechanical_Load_Front_min_Pa": 2400.0,
+      "Hail_Impact_Pass": 1,
+      "Thermal_Cycling_Cycles_min": 200
+    }
+  },
+  {
+    "is_number": "IS 16221 (Part 2):2015",
+    "title": "Safety of Power Converters for Use in Photovoltaic Power Systems - Particular Requirements for Inverters",
+    "sector": "Solar Energy",
+    "status": "Published",
+    "scheme": "Mandatory (CRS)",
+    "scope": "Addresses the specific safety requirements for inverters designed to connect to utility grids and off-grid solar energy systems.",
+    "parameters": {
+      "DC_Injection_to_Grid_max_%": 0.5,
+      "Harmonic_Voltage_Distortion_max_%": 3.0,
+      "Anti_Islanding_Disconnection_Time_max_s": 2.0,
+      "Overfrequency_Trip_Hz": 50.5
+    }
+  },
+  {
+    "is_number": "IS 1417:2016",
+    "title": "Gold and Gold Alloys, Jewellery/Artefacts - Fineness and Marking (Gold Hallmarking)",
+    "sector": "Hallmarking & Gold",
+    "status": "Published",
+    "scheme": "Mandatory (Hallmarking)",
+    "scope": "Prescribes requirements for fineness, alloy composition, and hallmarking of gold jewellery, bullion, and artefacts. Mandates HUID (Hallmark Unique Identification).",
+    "parameters": {
+      "Fineness_24K_Gold_min_parts_per_thousand": 999.0,
+      "Fineness_22K_Gold_min_parts_per_thousand": 916.0,
+      "Fineness_20K_Gold_min_parts_per_thousand": 833.0,
+      "Fineness_18K_Gold_min_parts_per_thousand": 750.0,
+      "Fineness_14K_Gold_min_parts_per_thousand": 585.0,
+      "HUID_Laser_Marking_Characters": 6
+    }
+  },
+  {
+    "is_number": "IS 2112:2014",
+    "title": "Silver and Silver Alloys, Jewellery/Artefacts - Fineness and Marking",
+    "sector": "Hallmarking & Silver",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Prescribes requirements for fineness and hallmarking of silver jewellery and artefacts in purity grades 990, 925 (Sterling), 900, 835, and 800.",
+    "parameters": {
+      "Fineness_Sterling_Silver_min_parts": 925.0,
+      "Fineness_Fine_Silver_min_parts": 990.0,
+      "Lead_Impurities_max_%": 0.01
+    }
+  },
+  {
+    "is_number": "IS 694:2010",
+    "title": "Polyvinyl Chloride Insulated Cables for Working Voltages up to and including 1100 V (House Wiring)",
+    "sector": "Electrical Cables & Wires",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Covers the requirements of single-core and multi-core cables with copper or aluminium conductors, PVC insulated and sheathed for domestic and industrial installation.",
+    "parameters": {
+      "Conductor_Resistance_2_5sqmm_max_Ohm_km": 7.41,
+      "Insulation_Resistance_at_70C_min_MOhm_km": 0.001,
+      "High_Voltage_Withstand_kV": 3.0,
+      "Flammability_Bunched_Wires_Pass": 1
+    }
+  },
+  {
+    "is_number": "IS 3196 (Part 1):2006",
+    "title": "Welded Low Carbon Steel Cylinders for Low Pressure Liquefiable Gases (Domestic LPG Cylinders)",
+    "sector": "Consumer Safety & Gas",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Specifies manufacturing, welding, hydrostatic testing, and bursting pressure requirements for 14.2 kg and 19 kg welded steel LPG cylinders.",
+    "parameters": {
+      "Hydrostatic_Test_Pressure_MPa": 2.5,
+      "Volumetric_Expansion_max_%": 10.0,
+      "Bursting_Pressure_min_MPa": 6.5,
+      "Weld_Tensile_Strength_min_MPa": 350.0
+    }
+  },
+  {
+    "is_number": "IS 302 (Part 2/Sec 3):2007",
+    "title": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Electric Irons",
+    "sector": "Consumer Electronics",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Safety of electric dry irons and steam irons for household and similar use, rated voltage not exceeding 250 V.",
+    "parameters": {
+      "Leakage_Current_max_mA": 0.75,
+      "Electric_Strength_Test_V": 1250,
+      "Soleplate_Temperature_Limit_C": 250.0,
+      "Cord_Anchorage_Pull_Force_N": 60.0
+    }
+  },
+  {
+    "is_number": "IS 12615:2018",
+    "title": "Line Operated Three-Phase Energy Efficient Induction Motors (IE2, IE3, IE4 Efficiency Classes)",
+    "sector": "Industrial Machinery",
+    "status": "Published",
+    "scheme": "Mandatory (ISI Mark)",
+    "scope": "Specifies energy efficiency classes and test procedures for low voltage three-phase cage induction motors according to national energy conservation targets.",
+    "parameters": {
+      "Efficiency_Class_IE3_5_5kW_min_%": 89.6,
+      "Power_Factor_Full_Load_min": 0.84,
+      "Starting_Torque_Ratio_min": 2.0,
+      "Temperature_Rise_Class_F_max_K": 105
+    }
+  },
+  {
+    "is_number": "IS 15658:2021",
+    "title": "Precast Concrete Blocks for Paving - Specification",
+    "sector": "Construction & Cement",
+    "status": "Published",
+    "scheme": "Voluntary",
+    "scope": "Covers requirements for precast concrete interlocking paving blocks for pedestrian walkaways, industrial yards, and highway pavements.",
+    "parameters": {
+      "Compressive_Strength_min_MPa": 30.0,
+      "Water_Absorption_max_%": 6.0,
+      "Abrasion_Resistance_max_loss_mm": 2.0,
+      "Tensile_Splitting_Strength_min_MPa": 3.6
     }
   }
 ]

@@ -58,7 +58,18 @@ import {
   Phone,
   ExternalLink,
   Compass,
+  UserCheck,
+  RefreshCw,
+  LogIn,
+  LogOut,
+  User as UserIcon,
+  ShieldAlert,
+  Lock,
 } from "lucide-react";
+import { useAuth, AuthProvider } from "@/lib/auth-context";
+import { AuthModal } from "@/components/modals/AuthModal";
+import { UserRole, User } from "@/types/auth";
+
 
 /* ═══════════════════════════ i18n ═══════════════════════════ */
 const labels = {
@@ -432,6 +443,15 @@ function AboutModal({ lang, onClose }: { lang: Lang; onClose: () => void }) {
   );
 }
 
+function getDisplayName(user: User | null | undefined): string {
+  if (!user) return "";
+  if (user.name.startsWith("Dr.")) {
+    const parts = user.name.split(" ");
+    return parts.length > 1 ? `Dr. ${parts[parts.length - 1]}` : user.name;
+  }
+  return user.name.split(" ")[0];
+}
+
 /* ═══════════════════════════════════════════════════════
    LANDING / HERO VIEW (Market-Ready Product Showcase)
    ═══════════════════════════════════════════════════════ */
@@ -439,22 +459,27 @@ function LandingView({
   lang,
   setLang,
   onLaunch,
+  onLaunchAdmin,
   onOpenAbout,
+  onOpenAuth,
 }: {
   lang: Lang;
   setLang: (l: Lang) => void;
   onLaunch: (tabIndex?: number) => void;
+  onLaunchAdmin: () => void;
   onOpenAbout: () => void;
+  onOpenAuth: () => void;
 }) {
   const t = labels[lang];
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-slate-50 via-white to-slate-100 text-slate-800 font-sans">
       {/* ─── Top Navbar ─── */}
-      <header className="sticky top-0 z-30 bg-white/85 backdrop-blur-md border-b border-slate-200/80">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
+      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 via-white to-green-500 flex items-center justify-center text-lg font-black text-indigo-950 shadow-md">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 via-white to-green-500 flex items-center justify-center text-lg font-black text-indigo-950 shadow-md flex-shrink-0">
               B
             </div>
             <div>
@@ -470,24 +495,73 @@ function LandingView({
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {/* About Button */}
             <button
               onClick={onOpenAbout}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all active:scale-[0.98]"
+              className="h-9 inline-flex items-center gap-1.5 px-3 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 bg-slate-50 hover:bg-slate-100 border border-slate-200 transition-all active:scale-[0.98]"
             >
               <Info size={15} />
               <span className="hidden sm:inline">{t.about}</span>
             </button>
+
+            {/* Language Toggle */}
             <button
               onClick={() => setLang(lang === "en" ? "hi" : "en")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-all border border-indigo-200 active:scale-[0.98]"
+              className="h-9 inline-flex items-center gap-1.5 px-3 rounded-xl text-xs font-semibold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-all border border-indigo-200 active:scale-[0.98]"
             >
               <Globe size={15} />
-              {t.lang}
+              <span>{t.lang}</span>
             </button>
+
+            {/* Auth / Role Button */}
+            <button
+              onClick={onOpenAuth}
+              className={`h-9 inline-flex items-center gap-2 px-3 rounded-xl text-xs font-bold transition-all border shadow-2xs active:scale-[0.98] ${
+                user
+                  ? user.role === "admin"
+                    ? "bg-amber-50 border-amber-300 text-amber-900 hover:bg-amber-100"
+                    : user.role === "manufacturer"
+                    ? "bg-indigo-50 border-indigo-300 text-indigo-900 hover:bg-indigo-100"
+                    : "bg-emerald-50 border-emerald-300 text-emerald-900 hover:bg-emerald-100"
+                  : "bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-700"
+              }`}
+            >
+              {user ? (
+                <>
+                  <span className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                    user.role === "admin" ? "bg-amber-500" : user.role === "manufacturer" ? "bg-indigo-600" : "bg-emerald-500"
+                  }`} />
+                  <span className="max-w-[120px] truncate">{getDisplayName(user)}</span>
+                  <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-black/10 font-bold leading-none">
+                    {user.role === "admin" ? "Officer" : user.role === "manufacturer" ? "MSME" : "Citizen"}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <LogIn size={14} className="text-indigo-600" />
+                  <span>Sign In</span>
+                </>
+              )}
+            </button>
+
+            {/* Admin View Button */}
+            <button
+              onClick={onLaunchAdmin}
+              className="h-9 inline-flex items-center gap-1.5 px-3 rounded-xl text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-300 transition-all active:scale-[0.98] shadow-2xs"
+              title="Access Official Regulatory & Enforcement Admin Console"
+            >
+              <ShieldAlert size={14} className="text-amber-700" />
+              <span>Admin View</span>
+              {user?.role !== "admin" && (
+                <Lock size={11} className="text-amber-700/60 ml-0.5" />
+              )}
+            </button>
+
+            {/* Launch / Get Started */}
             <button
               onClick={() => onLaunch(0)}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-950 text-white shadow-md shadow-indigo-950/20 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="h-9 inline-flex items-center gap-2 px-4 rounded-xl text-xs sm:text-sm font-semibold bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-950 text-white shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-[0.98] transition-all"
             >
               <span>{t.getStarted}</span>
               <ArrowRight size={15} />
@@ -670,19 +744,71 @@ function LandingView({
 /* ═══════════════════════════════════════════════════════
    MAIN COMPONENT
    ═══════════════════════════════════════════════════════ */
-export default function Home() {
+function HomeContent() {
+  const { user, logout } = useAuth();
   const [lang, setLang] = useState<Lang>("en");
   const [activeTab, setActiveTab] = useState(0);
   const [inApp, setInApp] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authRequiredRole, setAuthRequiredRole] = useState<UserRole | undefined>();
+  const [authMessage, setAuthMessage] = useState<string | undefined>();
+  const [targetTabOnAuth, setTargetTabOnAuth] = useState<number>(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAdminView, setIsAdminView] = useState(false);
   const t = labels[lang];
 
   const handleLaunch = (tabIndex = 0) => {
+    if (!user) {
+      setTargetTabOnAuth(tabIndex);
+      setAuthRequiredRole(undefined);
+      setAuthMessage("Authentication required: Please sign in or select a demo profile to open the compliance assistant modules.");
+      setShowAuthModal(true);
+      return;
+    }
     setActiveTab(tabIndex);
     setIsAdminView(false);
     setInApp(true);
+  };
+
+  const handleAuthSuccess = () => {
+    if (authRequiredRole === "admin") {
+      setIsAdminView(true);
+    } else {
+      setActiveTab(targetTabOnAuth);
+      setIsAdminView(false);
+    }
+    setInApp(true);
+  };
+
+  const handleLaunchAdmin = () => {
+    if (!user || user.role !== "admin") {
+      setTargetTabOnAuth(0);
+      setAuthRequiredRole("admin");
+      setAuthMessage("BIS Officer authentication required to access the Enforcement & Quality Control Admin Console.");
+      setShowAuthModal(true);
+      return;
+    }
+    setIsAdminView(true);
+    setInApp(true);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setInApp(false);
+    setIsAdminView(false);
+  };
+
+  // Only allow internal modules to be open/seen when user is authenticated
+  useEffect(() => {
+    if (!user && inApp) {
+      setInApp(false);
+      setIsAdminView(false);
+    }
+  }, [user, inApp]);
+
+  const handleToggleAdmin = () => {
+    setIsAdminView((prev) => !prev);
   };
 
   if (!inApp) {
@@ -692,9 +818,22 @@ export default function Home() {
           lang={lang}
           setLang={setLang}
           onLaunch={handleLaunch}
+          onLaunchAdmin={handleLaunchAdmin}
           onOpenAbout={() => setShowAbout(true)}
+          onOpenAuth={() => {
+            setAuthRequiredRole(undefined);
+            setAuthMessage(undefined);
+            setShowAuthModal(true);
+          }}
         />
         {showAbout && <AboutModal lang={lang} onClose={() => setShowAbout(false)} />}
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={handleAuthSuccess}
+          requiredRole={authRequiredRole}
+          initialMessage={authMessage}
+        />
       </>
     );
   }
@@ -737,36 +876,46 @@ export default function Home() {
                   setActiveTab(i);
                   setIsAdminView(false);
                 }}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all ${
-                  isActive
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all ${isActive
                     ? "bg-amber-500/20 text-amber-300 shadow-inner"
                     : "text-indigo-200/70 hover:bg-white/5 hover:text-white"
-                }`}
+                  }`}
               >
                 <Icon size={18} strokeWidth={isActive ? 2.2 : 1.5} />
                 {label}
               </button>
             );
           })}
+
+          {/* Admin View in Sidebar Nav */}
+          <div className="pt-2 border-t border-white/10 mt-2">
+            <button
+              onClick={() => {
+                if (user?.role !== "admin") {
+                  setAuthRequiredRole("admin");
+                  setAuthMessage("BIS Officer authentication required to access the Enforcement & Quality Control Admin Console.");
+                  setShowAuthModal(true);
+                  return;
+                }
+                setIsAdminView(true);
+              }}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-bold transition-all ${
+                isAdminView
+                  ? "bg-amber-400 text-indigo-950 shadow-md font-extrabold"
+                  : "text-amber-300 hover:bg-amber-400/10 hover:text-amber-200"
+              }`}
+            >
+              <ShieldAlert size={18} />
+              <span>Admin View</span>
+              {user?.role !== "admin" && (
+                <Lock size={12} className="ml-auto opacity-70" />
+              )}
+            </button>
+          </div>
         </nav>
 
         {/* Sidebar footer */}
         <div className="px-4 py-4 border-t border-white/10 text-[11px] text-indigo-400/60 space-y-2.5">
-          <button
-            onClick={() => setIsAdminView(!isAdminView)}
-            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all border ${
-              isAdminView
-                ? "bg-amber-500 text-white border-amber-400 shadow-md"
-                : "bg-white/5 hover:bg-white/10 text-indigo-200 hover:text-white border-white/10"
-            }`}
-          >
-            <span className="flex items-center gap-2">
-              <BarChart3 size={15} className={isAdminView ? "text-white" : "text-amber-400"} />
-              <span>{isAdminView ? "Exit Admin View" : "Switch to Admin"}</span>
-            </span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-black/20 text-amber-300 font-mono">Demo</span>
-          </button>
-
           <div className="flex items-center justify-between pt-1">
             <button
               onClick={() => setShowAbout(true)}
@@ -827,30 +976,46 @@ export default function Home() {
                       setIsAdminView(false);
                       setMobileMenuOpen(false);
                     }}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                      isActive
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${isActive
                         ? "bg-amber-500/20 text-amber-300"
                         : "text-indigo-200/70 hover:bg-white/5 hover:text-white"
-                    }`}
+                      }`}
                   >
                     <Icon size={18} />
                     {label}
                   </button>
                 );
               })}
+
+              {/* Admin View in Mobile Drawer */}
+              <div className="pt-2 border-t border-white/10 mt-2">
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    if (user?.role !== "admin") {
+                      setAuthRequiredRole("admin");
+                      setAuthMessage("BIS Officer authentication required to access the Enforcement & Quality Control Admin Console.");
+                      setShowAuthModal(true);
+                      return;
+                    }
+                    setIsAdminView(true);
+                  }}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                    isAdminView
+                      ? "bg-amber-400 text-indigo-950 shadow-md font-extrabold"
+                      : "text-amber-300 hover:bg-white/5"
+                  }`}
+                >
+                  <ShieldAlert size={18} />
+                  <span>Admin View</span>
+                  {user?.role !== "admin" && (
+                    <Lock size={12} className="ml-auto opacity-70" />
+                  )}
+                </button>
+              </div>
             </nav>
 
             <div className="p-4 border-t border-white/10 space-y-2 text-xs text-indigo-300/70">
-              <button
-                onClick={() => {
-                  setIsAdminView(!isAdminView);
-                  setMobileMenuOpen(false);
-                }}
-                className="w-full flex items-center gap-2 py-1.5 text-amber-300 hover:text-white"
-              >
-                <BarChart3 size={16} />
-                <span>{isAdminView ? "Return to User View" : "Switch to Admin Insights"}</span>
-              </button>
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
@@ -907,18 +1072,76 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-2">
+            {/* User Profile & Sign Out in In-App Header */}
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => {
+                  setAuthRequiredRole(undefined);
+                  setAuthMessage(undefined);
+                  setShowAuthModal(true);
+                }}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold transition-all border shadow-xs ${
+                  user
+                    ? user.role === "admin"
+                      ? "bg-amber-50 border-amber-300 text-amber-900 hover:bg-amber-100"
+                      : user.role === "manufacturer"
+                      ? "bg-indigo-50 border-indigo-300 text-indigo-900 hover:bg-indigo-100"
+                      : "bg-emerald-50 border-emerald-300 text-emerald-900 hover:bg-emerald-100"
+                    : "bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200"
+                }`}
+                title={user ? `Signed in as ${user.name} (${user.role})` : "Sign In"}
+              >
+                {user ? (
+                  <>
+                    <UserCheck size={14} className={user.role === "admin" ? "text-amber-600" : user.role === "manufacturer" ? "text-indigo-600" : "text-emerald-600"} />
+                    <span className="hidden sm:inline max-w-[120px] truncate">{getDisplayName(user)}</span>
+                    <span className="text-[10px] uppercase font-mono px-1 py-0.2 rounded bg-black/10">
+                      {user.role === "admin" ? "Officer" : user.role === "manufacturer" ? "MSME" : "Citizen"}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <LogIn size={14} className="text-indigo-600" />
+                    <span className="hidden sm:inline">Sign In</span>
+                  </>
+                )}
+              </button>
+              {user && (
+                <button
+                  onClick={handleLogout}
+                  title="Sign Out"
+                  className="p-2 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 border border-slate-200 transition-colors"
+                >
+                  <LogOut size={14} />
+                </button>
+              )}
+            </div>
+
+            {/* Admin View Button */}
             <button
-              onClick={() => setIsAdminView(!isAdminView)}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all border ${
+              onClick={() => {
+                if (user?.role !== "admin") {
+                  setAuthRequiredRole("admin");
+                  setAuthMessage("BIS Officer authentication required to access the Enforcement & Quality Control Admin Console.");
+                  setShowAuthModal(true);
+                  return;
+                }
+                setIsAdminView((prev) => !prev);
+              }}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold transition-all border shadow-xs ${
                 isAdminView
-                  ? "bg-amber-500 text-white border-amber-600 shadow-sm"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200"
+                  ? "bg-amber-500 text-slate-950 border-amber-600 shadow-sm"
+                  : "bg-amber-50 hover:bg-amber-100 text-amber-900 border-amber-200"
               }`}
-              title="Toggle Admin View"
+              title="Toggle Regulatory Admin Console"
             >
-              <BarChart3 size={15} />
-              <span className="hidden sm:inline">{isAdminView ? "Exit Admin" : "Admin View"}</span>
+              <ShieldAlert size={14} className={isAdminView ? "text-slate-950" : "text-amber-700"} />
+              <span>{isAdminView ? "Exit Admin" : "Admin View"}</span>
+              {user?.role !== "admin" && (
+                <Lock size={11} className="text-amber-700/60 ml-0.5" />
+              )}
             </button>
+
             <button
               onClick={() => setShowAbout(true)}
               className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all border border-slate-200"
@@ -960,7 +1183,22 @@ export default function Home() {
 
       {/* ─── Global About Modal ─── */}
       {showAbout && <AboutModal lang={lang} onClose={() => setShowAbout(false)} />}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={handleAuthSuccess}
+        requiredRole={authRequiredRole}
+        initialMessage={authMessage}
+      />
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <AuthProvider>
+      <HomeContent />
+    </AuthProvider>
   );
 }
 
@@ -1017,11 +1255,10 @@ function AskTab({ lang }: { lang: Lang }) {
       <div className="px-8 py-3 bg-white border-b border-slate-200 flex items-center gap-3">
         <button
           onClick={() => setSimpleMode(!simpleMode)}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-            simpleMode
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${simpleMode
               ? "bg-amber-100 text-amber-800 border border-amber-300"
               : "bg-slate-100 text-slate-500 border border-slate-200"
-          }`}
+            }`}
         >
           {simpleMode ? <ToggleRight size={18} /> : <ToggleLeft size={18} />}
           {t.simpleMode}
@@ -1335,13 +1572,12 @@ function CertificationTab({ lang }: { lang: Lang }) {
             return (
               <div key={i} className="flex flex-col sm:items-center gap-3">
                 <div
-                  className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center transition-all shadow-sm ${
-                    active
+                  className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center transition-all shadow-sm ${active
                       ? "bg-gradient-to-br from-amber-400 to-amber-500 text-white shadow-lg shadow-amber-300/30 scale-105 ring-4 ring-amber-200"
                       : done
-                      ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
-                      : "bg-slate-100 text-slate-400 border border-slate-200"
-                  }`}
+                        ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+                        : "bg-slate-100 text-slate-400 border border-slate-200"
+                    }`}
                 >
                   {done && !active ? <CheckCircle2 size={22} /> : <Icon size={22} />}
                 </div>
@@ -1418,16 +1654,227 @@ function CertificationTab({ lang }: { lang: Lang }) {
   );
 }
 
-/* ═══════════════════════════════════════════════════════
-   COMPLIANCE CHECK TAB (Feature 4: Real CSV Upload Support)
-   ═══════════════════════════════════════════════════════ */
+interface CompliancePreset {
+  is_number: string;
+  name: string;
+  limits: Record<string, { limit: number; type: "max" | "min" }>;
+  sample: Record<string, number>;
+  failSample: Record<string, number>;
+  failureAnalysis: string;
+}
+
+const compliancePresets: CompliancePreset[] = [
+  {
+    is_number: "IS 18087:2022",
+    name: "Haritaki Fruit Extract (Ayush)",
+    limits: {
+      "Foreign Matter (%)": { limit: 1.0, type: "max" as const },
+      "Loss on Drying (%)": { limit: 12.0, type: "max" as const },
+      "Total Ash (%)": { limit: 6.0, type: "max" as const },
+      "Acid Insoluble Ash (%)": { limit: 3.0, type: "max" as const },
+      "Alcohol Soluble Extractive (%)": { limit: 40.0, type: "min" as const },
+      "Water Soluble Extractive (%)": { limit: 60.0, type: "min" as const },
+    },
+    sample: {
+      "Foreign Matter (%)": 0.6,
+      "Loss on Drying (%)": 10.2,
+      "Total Ash (%)": 5.1,
+      "Acid Insoluble Ash (%)": 2.8,
+      "Alcohol Soluble Extractive (%)": 44.5,
+      "Water Soluble Extractive (%)": 62.0,
+    },
+    failSample: {
+      "Foreign Matter (%)": 2.4,
+      "Loss on Drying (%)": 14.8,
+      "Total Ash (%)": 8.5,
+      "Acid Insoluble Ash (%)": 4.6,
+      "Alcohol Soluble Extractive (%)": 31.2,
+      "Water Soluble Extractive (%)": 52.0,
+    },
+    failureAnalysis: "MULTIPLE PARAMETERS FAILED: High Acid Insoluble Ash (4.6% vs max 3.0%) indicates siliceous sand contamination during raw herb harvesting, while low extractive values (31.2% vs min 40.0%) indicate thermal degradation of active tannins during spray drying.",
+  },
+  {
+    is_number: "IS 14543:2016",
+    name: "Packaged Drinking Water (Food & Water)",
+    limits: {
+      "TDS (mg/l)": { limit: 500.0, type: "max" as const },
+      "pH Range (min)": { limit: 6.5, type: "min" as const },
+      "pH Range (max)": { limit: 8.5, type: "max" as const },
+      "Turbidity (NTU)": { limit: 2.0, type: "max" as const },
+      "Total Hardness as CaCO3 (mg/l)": { limit: 200.0, type: "max" as const },
+      "Lead (mg/l)": { limit: 0.01, type: "max" as const },
+      "Arsenic (mg/l)": { limit: 0.01, type: "max" as const },
+    },
+    sample: {
+      "TDS (mg/l)": 210.0,
+      "pH Range (min)": 7.2,
+      "pH Range (max)": 7.2,
+      "Turbidity (NTU)": 0.8,
+      "Total Hardness as CaCO3 (mg/l)": 140.0,
+      "Lead (mg/l)": 0.002,
+      "Arsenic (mg/l)": 0.001,
+    },
+    failSample: {
+      "TDS (mg/l)": 640.0,
+      "pH Range (min)": 6.1,
+      "pH Range (max)": 6.1,
+      "Turbidity (NTU)": 3.8,
+      "Total Hardness as CaCO3 (mg/l)": 280.0,
+      "Lead (mg/l)": 0.028,
+      "Arsenic (mg/l)": 0.016,
+    },
+    failureAnalysis: "CRITICAL SAFETY HAZARD: Toxic heavy metal limits exceeded. Lead (0.028 mg/l) and Arsenic (0.016 mg/l) exceed BIS health thresholds by 180% and 60%. Turbidity (3.8 NTU) and high TDS (640 mg/l) indicate primary RO membrane rupture and filtration media exhaustion.",
+  },
+  {
+    is_number: "IS 1489 (Part 1):2015",
+    name: "Portland Pozzolana Cement PPC (Construction)",
+    limits: {
+      "Fineness Blaine (m2/kg)": { limit: 300.0, type: "min" as const },
+      "Initial Setting Time (mins)": { limit: 30.0, type: "min" as const },
+      "Final Setting Time (mins)": { limit: 600.0, type: "max" as const },
+      "Compressive Strength 3-Day (MPa)": { limit: 16.0, type: "min" as const },
+      "Compressive Strength 7-Day (MPa)": { limit: 22.0, type: "min" as const },
+      "Compressive Strength 28-Day (MPa)": { limit: 33.0, type: "min" as const },
+      "Drying Shrinkage (%)": { limit: 0.15, type: "max" as const },
+    },
+    sample: {
+      "Fineness Blaine (m2/kg)": 345.0,
+      "Initial Setting Time (mins)": 145.0,
+      "Final Setting Time (mins)": 260.0,
+      "Compressive Strength 3-Day (MPa)": 19.5,
+      "Compressive Strength 7-Day (MPa)": 26.2,
+      "Compressive Strength 28-Day (MPa)": 36.8,
+      "Drying Shrinkage (%)": 0.08,
+    },
+    failSample: {
+      "Fineness Blaine (m2/kg)": 265.0,
+      "Initial Setting Time (mins)": 22.0,
+      "Final Setting Time (mins)": 645.0,
+      "Compressive Strength 3-Day (MPa)": 12.8,
+      "Compressive Strength 7-Day (MPa)": 18.2,
+      "Compressive Strength 28-Day (MPa)": 27.4,
+      "Drying Shrinkage (%)": 0.22,
+    },
+    failureAnalysis: "STRUCTURAL STRENGTH DEFICIT: 28-Day compressive strength (27.4 MPa) fails the mandatory 33.0 MPa minimum. Initial setting time under 30 minutes (22 mins) creates acute flash-setting danger during concrete placement. Drying shrinkage (0.22%) exceeds permissible limits.",
+  },
+  {
+    is_number: "IS 4151:2015",
+    name: "Protective Helmets for Two-Wheelers (Automotive)",
+    limits: {
+      "Peak Impact Acceleration (g)": { limit: 300.0, type: "max" as const },
+      "Retention Dynamic Displacement (mm)": { limit: 35.0, type: "max" as const },
+      "Retention Residual Displacement (mm)": { limit: 15.0, type: "max" as const },
+      "Visor Luminous Transmittance (%)": { limit: 85.0, type: "min" as const },
+      "Helmet Weight (g)": { limit: 1500.0, type: "max" as const },
+    },
+    sample: {
+      "Peak Impact Acceleration (g)": 220.0,
+      "Retention Dynamic Displacement (mm)": 24.0,
+      "Retention Residual Displacement (mm)": 9.5,
+      "Visor Luminous Transmittance (%)": 88.5,
+      "Helmet Weight (g)": 1380.0,
+    },
+    failSample: {
+      "Peak Impact Acceleration (g)": 382.0,
+      "Retention Dynamic Displacement (mm)": 44.5,
+      "Retention Residual Displacement (mm)": 21.0,
+      "Visor Luminous Transmittance (%)": 71.0,
+      "Helmet Weight (g)": 1680.0,
+    },
+    failureAnalysis: "LIFE-SAFETY VIOLATION: Peak impact acceleration reached 382g, breaching the lethal 300g threshold for head injury. Retention buckle slipped 21mm under dynamic tensile shock, presenting helmet detachment risk during collision.",
+  },
+  {
+    is_number: "IS 9873 (Part 3):2020",
+    name: "Safety of Toys - Toxic Heavy Metal Limits (Toys)",
+    limits: {
+      "Lead Migration (mg/kg)": { limit: 90.0, type: "max" as const },
+      "Barium Migration (mg/kg)": { limit: 1000.0, type: "max" as const },
+      "Cadmium Migration (mg/kg)": { limit: 75.0, type: "max" as const },
+      "Chromium Migration (mg/kg)": { limit: 60.0, type: "max" as const },
+      "Mercury Migration (mg/kg)": { limit: 60.0, type: "max" as const },
+      "Arsenic Migration (mg/kg)": { limit: 25.0, type: "max" as const },
+    },
+    sample: {
+      "Lead Migration (mg/kg)": 14.2,
+      "Barium Migration (mg/kg)": 160.0,
+      "Cadmium Migration (mg/kg)": 4.5,
+      "Chromium Migration (mg/kg)": 12.0,
+      "Mercury Migration (mg/kg)": 1.2,
+      "Arsenic Migration (mg/kg)": 3.4,
+    },
+    failSample: {
+      "Lead Migration (mg/kg)": 184.0,
+      "Barium Migration (mg/kg)": 1420.0,
+      "Cadmium Migration (mg/kg)": 94.0,
+      "Chromium Migration (mg/kg)": 85.0,
+      "Mercury Migration (mg/kg)": 1.2,
+      "Arsenic Migration (mg/kg)": 3.4,
+    },
+    failureAnalysis: "PEDIATRIC HEALTH HAZARD: Soluble Lead migration of 184.0 mg/kg is more than double the 90.0 mg/kg legal cap. Barium (1,420 mg/kg) and Chromium (85.0 mg/kg) also violate Toy QCO mandatory limits. Immediate production halt and pigment supplier quarantine required.",
+  },
+  {
+    is_number: "IS 1786:2008",
+    name: "TMT High Strength Steel Rebars Fe 500D (Metals)",
+    limits: {
+      "Yield Stress 0.2% Proof (MPa)": { limit: 500.0, type: "min" as const },
+      "Tensile Strength (MPa)": { limit: 565.0, type: "min" as const },
+      "Elongation Gauge Length (%)": { limit: 16.0, type: "min" as const },
+      "Total Elongation at Max Force (%)": { limit: 5.0, type: "min" as const },
+      "Carbon Content (%)": { limit: 0.25, type: "max" as const },
+    },
+    sample: {
+      "Yield Stress 0.2% Proof (MPa)": 525.0,
+      "Tensile Strength (MPa)": 605.0,
+      "Elongation Gauge Length (%)": 18.2,
+      "Total Elongation at Max Force (%)": 6.5,
+      "Carbon Content (%)": 0.21,
+    },
+    failSample: {
+      "Yield Stress 0.2% Proof (MPa)": 455.0,
+      "Tensile Strength (MPa)": 520.0,
+      "Elongation Gauge Length (%)": 11.8,
+      "Total Elongation at Max Force (%)": 3.6,
+      "Carbon Content (%)": 0.32,
+    },
+    failureAnalysis: "SEISMIC REBAR FAILURE: Yield stress (455.0 MPa vs min 500.0 MPa) and elongation (11.8% vs min 16.0%) fail mandatory ductile seismic criteria. Excessive carbon (0.32% vs max 0.25%) creates brittle heat-affected zones during site welding, making the rebar unfit for earthquake-resistant construction.",
+  },
+];
+
 function ComplianceTab({ lang }: { lang: Lang }) {
   const t = labels[lang];
-  const [reportData, setReportData] = useState<Record<string, number>>(sampleTestReport);
-  const [reportSource, setReportSource] = useState<string>("Sample Report (IS 18087 Haritaki Extract)");
+  const [selectedStandardIndex, setSelectedStandardIndex] = useState(0);
+  const currentPreset = compliancePresets[selectedStandardIndex];
+  const [activeScenario, setActiveScenario] = useState<"pass" | "fail">("pass");
+  const [reportData, setReportData] = useState<Record<string, number>>(currentPreset.sample);
+  const [reportSource, setReportSource] = useState<string>(`Compliant Sample (${currentPreset.is_number})`);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSelectStandard = (index: number) => {
+    setSelectedStandardIndex(index);
+    const preset = compliancePresets[index];
+    const data = activeScenario === "pass" ? preset.sample : preset.failSample;
+    setReportData(data);
+    setReportSource(`${activeScenario === "pass" ? "Compliant Sample" : "Defect Fail Sample"} (${preset.is_number})`);
+    setUploadError(null);
+  };
+
+  const handleLoadPassSample = () => {
+    setActiveScenario("pass");
+    setReportData(currentPreset.sample);
+    setReportSource(`Compliant Sample (${currentPreset.is_number})`);
+    setUploadError(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleLoadFailSample = () => {
+    setActiveScenario("fail");
+    setReportData(currentPreset.failSample);
+    setReportSource(`Defect Non-Compliant Sample (${currentPreset.is_number})`);
+    setUploadError(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -1473,7 +1920,7 @@ function ComplianceTab({ lang }: { lang: Lang }) {
             const rawKey = parts[0];
             const rawVal = parseFloat(parts[1]);
             if (!isNaN(rawVal)) {
-              for (const knownKey of Object.keys(haritakiLimits)) {
+              for (const knownKey of Object.keys(currentPreset.limits)) {
                 const normKnown = knownKey.toLowerCase().replace(/[^a-z]/g, "");
                 const normRaw = rawKey.toLowerCase().replace(/[^a-z]/g, "");
                 if (normKnown.includes(normRaw) || normRaw.includes(normKnown)) {
@@ -1485,7 +1932,7 @@ function ComplianceTab({ lang }: { lang: Lang }) {
           }
         }
         if (Object.keys(parsed).length === 0) {
-          setUploadError("Could not match parameters from CSV. Ensure format: Parameter, Observed Value (e.g. Total Ash (%), 5.2)");
+          setUploadError(`Could not match parameters from CSV. Ensure format: Parameter, Observed Value (matching ${currentPreset.is_number} specifications).`);
         } else {
           setReportData(parsed);
           setReportSource(`Live CSV: ${file.name}`);
@@ -1501,50 +1948,61 @@ function ComplianceTab({ lang }: { lang: Lang }) {
   };
 
   const handleDownloadSample = () => {
+    const dataSource = activeScenario === "pass" ? currentPreset.sample : currentPreset.failSample;
     const csvContent = [
       "Parameter,Observed Value",
-      "Foreign Matter (%),0.6",
-      "Loss on Drying (%),10.2",
-      "Total Ash (%),5.1",
-      "Acid Insoluble Ash (%),2.8",
-      "Alcohol Soluble Extractive (%),44.5",
-      "Water Soluble Extractive (%),62.0",
+      ...Object.entries(dataSource).map(([k, v]) => `"${k}",${v}`),
     ].join("\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "sample_haritaki_lab_report.csv";
+    link.download = `${activeScenario}_${currentPreset.is_number.replace(/[^a-zA-Z0-9]/g, "_")}_report.csv`;
     link.click();
     URL.revokeObjectURL(url);
   };
 
   const handleResetSample = () => {
-    setReportData(sampleTestReport);
-    setReportSource("Sample Report (IS 18087 Haritaki Extract)");
+    setActiveScenario("pass");
+    setReportData(currentPreset.sample);
+    setReportSource(`Compliant Sample (${currentPreset.is_number})`);
     setUploadError(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const rows = Object.entries(haritakiLimits).map(([param, { limit, type }]) => {
-    const observed = reportData[param] ?? sampleTestReport[param];
+  const rows = Object.entries(currentPreset.limits).map(([param, { limit, type }]) => {
+    const fallback = activeScenario === "fail" ? currentPreset.failSample[param] : currentPreset.sample[param];
+    const observed = reportData[param] ?? fallback;
     const pass = type === "max" ? observed <= limit : observed >= limit;
-    return { param, limit, type, observed, pass };
+    const diff = type === "max" ? observed - limit : limit - observed;
+    return { param, limit, type, observed, pass, diff };
   });
   const allPass = rows.every((r) => r.pass);
+  const failCount = rows.filter((r) => !r.pass).length;
 
   return (
-    <div className="p-8 overflow-y-auto h-full space-y-6 max-w-5xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-slate-800">{t.compTitle}</h2>
-          <p className="text-slate-500 mt-1 text-sm">
-            {reportSource} vs. IS 18087:2022 Specifications
+    <div className="p-6 sm:p-8 overflow-y-auto h-full space-y-6 max-w-5xl mx-auto">
+      {/* ─── Top Header: Title & Upload Actions (Row 1) ─── */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+              Lab Report Evaluator
+            </span>
+            <span className="text-[10px] font-semibold text-slate-400">
+              Tolerance & Limit Verifier
+            </span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            {t.compTitle}
+          </h2>
+          <p className="text-slate-500 text-xs sm:text-sm mt-1">
+            Evaluate NABL laboratory test results against official Indian Standard tolerances.
           </p>
         </div>
 
-        {/* Feature 4: CSV & PDF Upload and Sample Fallback Actions */}
-        <div className="flex flex-wrap items-center gap-2">
+        {/* Upload & Download Actions */}
+        <div className="flex items-center gap-2 flex-shrink-0">
           <input
             type="file"
             ref={fileInputRef}
@@ -1555,29 +2013,86 @@ function ComplianceTab({ lang }: { lang: Lang }) {
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={uploadLoading}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition-all disabled:opacity-50"
+            className="h-10 inline-flex items-center gap-2 px-4 rounded-xl text-xs sm:text-sm font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm hover:shadow transition-all disabled:opacity-50"
           >
             {uploadLoading ? (
-              <Loader2 size={15} className="animate-spin" />
+              <Loader2 size={16} className="animate-spin" />
             ) : (
-              <UploadCloud size={15} />
+              <UploadCloud size={16} />
             )}
             <span>{uploadLoading ? "Analyzing Report…" : "Upload Lab Report (CSV / PDF)"}</span>
           </button>
           <button
             onClick={handleDownloadSample}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 transition-all"
+            className="h-10 inline-flex items-center gap-1.5 px-3.5 rounded-xl text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 transition-all shadow-2xs"
             title="Download formatted sample test CSV"
           >
             <Download size={14} />
-            <span>Sample CSV</span>
+            <span className="hidden sm:inline">Sample CSV</span>
+          </button>
+        </div>
+      </div>
+
+      {/* ─── Control Bar: Standard Dropdown & Scenario Selector (Row 2) ─── */}
+      <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        {/* Standard Selector */}
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center flex-shrink-0">
+            <Layers size={20} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              Evaluated Indian Standard
+            </label>
+            <select
+              value={selectedStandardIndex}
+              onChange={(e) => handleSelectStandard(Number(e.target.value))}
+              className="w-full bg-transparent text-sm font-bold text-slate-900 focus:outline-none cursor-pointer py-0.5 truncate"
+            >
+              {compliancePresets.map((p, idx) => (
+                <option key={p.is_number} value={idx}>
+                  {p.is_number} — {p.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Test Scenarios: Pass vs Fail */}
+        <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap flex-shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-100">
+          <span className="text-xs font-bold text-slate-500 mr-1 hidden sm:inline">
+            Test Scenario:
+          </span>
+          <button
+            onClick={handleLoadPassSample}
+            className={`h-9 inline-flex items-center gap-1.5 px-3.5 rounded-xl text-xs font-bold transition-all border ${
+              activeScenario === "pass"
+                ? "bg-emerald-600 text-white border-emerald-700 shadow-sm"
+                : "bg-slate-50 hover:bg-emerald-50/60 text-slate-700 border-slate-200"
+            }`}
+          >
+            <CheckCircle2 size={14} className={activeScenario === "pass" ? "text-white" : "text-emerald-600"} />
+            <span>Pass Sample (Compliant)</span>
           </button>
           <button
-            onClick={handleResetSample}
-            className="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all"
+            onClick={handleLoadFailSample}
+            className={`h-9 inline-flex items-center gap-1.5 px-3.5 rounded-xl text-xs font-bold transition-all border ${
+              activeScenario === "fail"
+                ? "bg-red-600 text-white border-red-700 shadow-sm ring-2 ring-red-200"
+                : "bg-slate-50 hover:bg-red-50/60 text-slate-700 border-slate-200"
+            }`}
           >
-            Reset Sample
+            <AlertCircle size={14} className={activeScenario === "fail" ? "text-white" : "text-red-600"} />
+            <span>Fail Sample (Non-Compliant)</span>
           </button>
+          {reportSource.startsWith("Live") && (
+            <button
+              onClick={handleResetSample}
+              className="h-9 px-3 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all"
+            >
+              Reset
+            </button>
+          )}
         </div>
       </div>
 
@@ -1588,44 +2103,81 @@ function ComplianceTab({ lang }: { lang: Lang }) {
         </div>
       )}
 
-      <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold ${
-        allPass
-          ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-          : "bg-red-50 text-red-700 border border-red-200"
-      }`}>
-        {allPass ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
-        {allPass
-          ? lang === "en" ? "All parameters within mandatory limits" : "सभी पैरामीटर सीमा के भीतर"
-          : lang === "en" ? "Some parameters out of specification" : "कुछ पैरामीटर विनिर्देश से बाहर"}
+      {/* ─── Status Banner ─── */}
+      <div className={`p-4 rounded-2xl border flex items-center justify-between gap-3 animate-fadeIn ${allPass
+          ? "bg-emerald-50 text-emerald-900 border-emerald-200 shadow-xs"
+          : "bg-red-50 text-red-900 border-red-200 shadow-xs"
+        }`}>
+        <div className="flex items-center gap-2.5">
+          {allPass ? (
+            <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
+              <CheckCircle2 size={18} />
+            </div>
+          ) : (
+            <div className="w-8 h-8 rounded-xl bg-red-100 text-red-700 flex items-center justify-center flex-shrink-0">
+              <AlertCircle size={18} />
+            </div>
+          )}
+          <div>
+            <h4 className="text-sm font-bold">
+              {allPass
+                ? "PASS: All Parameters Within Mandatory BIS Tolerances"
+                : `FAIL: ${failCount} of ${rows.length} Parameters Out of Mandatory Specification`}
+            </h4>
+            <p className="text-xs text-slate-600 mt-0.5">
+              Source: <span className="font-semibold text-slate-800">{reportSource}</span> vs. {currentPreset.is_number}
+            </p>
+          </div>
+        </div>
+        <span className={`px-3 py-1 rounded-xl text-xs font-bold uppercase tracking-wider ${
+          allPass ? "bg-emerald-200/80 text-emerald-900" : "bg-red-200/80 text-red-900"
+        }`}>
+          {allPass ? "Compliant" : "Defect Detected"}
+        </span>
       </div>
 
-      <div className="rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-sm">
+      {/* ─── Evaluation Data Table ─── */}
+      <div className="rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-xs">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-slate-50 border-b border-slate-200">
-              <th className="text-left px-6 py-4 font-semibold text-slate-600">{t.parameter}</th>
-              <th className="text-center px-6 py-4 font-semibold text-slate-600">{t.limit}</th>
-              <th className="text-center px-6 py-4 font-semibold text-slate-600">{t.observed}</th>
-              <th className="text-center px-6 py-4 font-semibold text-slate-600">{t.result}</th>
+            <tr className="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
+              <th className="text-left px-5 py-3.5">{t.parameter}</th>
+              <th className="text-center px-4 py-3.5">Standard Limit</th>
+              <th className="text-center px-4 py-3.5">Observed Lab Value</th>
+              <th className="text-center px-4 py-3.5">Tolerance Delta</th>
+              <th className="text-center px-4 py-3.5">{t.result}</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-slate-100">
             {rows.map((row, i) => (
-              <tr key={i} className={`border-t border-slate-100 transition-colors ${
-                row.pass ? "hover:bg-emerald-50/50" : "bg-red-50/50 hover:bg-red-50"
+              <tr key={i} className={`transition-colors ${
+                row.pass ? "hover:bg-slate-50/80" : "bg-red-50/40 hover:bg-red-50/70"
               }`}>
-                <td className="px-6 py-4 text-slate-700 font-medium">{row.param}</td>
-                <td className="px-6 py-4 text-center text-slate-500">
-                  {row.type === "max" ? "≤" : "≥"} {row.limit}
+                <td className="px-5 py-3.5 text-slate-800 font-medium">
+                  {row.param}
                 </td>
-                <td className={`px-6 py-4 text-center font-mono font-semibold ${
-                  row.pass ? "text-emerald-600" : "text-red-600"
+                <td className="px-4 py-3.5 text-center text-slate-600 font-mono text-xs">
+                  <span className="px-2 py-0.5 rounded bg-slate-100 font-semibold">
+                    {row.type === "max" ? "≤" : "≥"} {row.limit}
+                  </span>
+                </td>
+                <td className={`px-4 py-3.5 text-center font-mono font-bold text-xs ${
+                  row.pass ? "text-emerald-700" : "text-red-600"
                 }`}>
                   {row.observed}
                 </td>
-                <td className="px-6 py-4 text-center">
-                  <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold ${
-                    row.pass ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"
+                <td className="px-4 py-3.5 text-center text-xs font-mono">
+                  {row.pass ? (
+                    <span className="text-emerald-600 font-medium">Within limit</span>
+                  ) : (
+                    <span className="text-red-700 font-bold bg-red-100/80 px-2 py-0.5 rounded">
+                      {row.type === "max" ? `+${row.diff.toFixed(2)} Exceeds Max` : `-${row.diff.toFixed(2)} Deficit`}
+                    </span>
+                  )}
+                </td>
+                <td className="px-4 py-3.5 text-center">
+                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-extrabold ${
+                    row.pass ? "bg-emerald-100 text-emerald-800" : "bg-red-100 text-red-800"
                   }`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${row.pass ? "bg-emerald-500" : "bg-red-500"}`} />
                     {row.pass ? t.pass : t.fail}
@@ -1636,6 +2188,25 @@ function ComplianceTab({ lang }: { lang: Lang }) {
           </tbody>
         </table>
       </div>
+
+      {/* ─── Non-Compliance Root Cause & Action Advisory ─── */}
+      {!allPass && (
+        <div className="p-5 rounded-2xl bg-amber-50/60 border border-amber-300 text-slate-800 space-y-3 animate-fadeIn shadow-xs">
+          <div className="flex items-center gap-2 text-amber-900 font-bold text-sm">
+            <AlertTriangle size={18} className="text-amber-600 flex-shrink-0" />
+            <span>Non-Compliance Analysis & Mandatory Corrective Action Advisory</span>
+          </div>
+          <p className="text-xs text-slate-700 leading-relaxed font-medium">
+            {currentPreset.failureAnalysis}
+          </p>
+          <div className="pt-2.5 border-t border-amber-200/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-amber-950 font-medium">
+            <span>Remediation Checklist: Quarantine test lot, calibrate analytical instruments, and re-sample under NABL supervision before BIS audit.</span>
+            <span className="font-mono font-bold bg-amber-200/70 text-amber-900 px-2 py-0.5 rounded">
+              BIS Quality Order Alert
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -1902,30 +2473,42 @@ function LabTab({ lang }: { lang: Lang }) {
           </p>
         </div>
 
-        {/* View Mode Toggle */}
-        <div className="flex items-center p-1 rounded-2xl bg-slate-100 border border-slate-200 text-xs font-semibold self-start sm:self-auto shadow-2xs">
-          <button
-            onClick={() => setViewMode("map")}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition-all ${
-              viewMode === "map"
-                ? "bg-white text-indigo-900 shadow-sm shadow-indigo-100 font-bold"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
+        <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
+          <a
+            href="https://lims.bis.gov.in/Labs/SearchLab"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="h-10 inline-flex items-center gap-1.5 px-3.5 rounded-2xl bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 text-xs font-bold transition-all shadow-2xs flex-shrink-0"
+            title="Search official Government BIS LIMS Laboratory Directory"
           >
-            <Map size={14} className={viewMode === "map" ? "text-amber-500" : "text-slate-400"} />
-            <span>Interactive Map</span>
-          </button>
-          <button
-            onClick={() => setViewMode("list")}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition-all ${
-              viewMode === "list"
-                ? "bg-white text-indigo-900 shadow-sm shadow-indigo-100 font-bold"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            <ListFilter size={14} className={viewMode === "list" ? "text-amber-500" : "text-slate-400"} />
-            <span>Directory List ({filteredLabs.length})</span>
-          </button>
+            <ShieldCheck size={14} className="text-indigo-600" />
+            <span>Official BIS LIMS Portal</span>
+            <ExternalLink size={12} />
+          </a>
+
+          {/* View Mode Toggle */}
+          <div className="flex items-center p-1 rounded-2xl bg-slate-100 border border-slate-200 text-xs font-semibold self-start sm:self-auto shadow-2xs">
+            <button
+              onClick={() => setViewMode("map")}
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition-all ${viewMode === "map"
+                  ? "bg-white text-indigo-900 shadow-sm shadow-indigo-100 font-bold"
+                  : "text-slate-600 hover:text-slate-900"
+                }`}
+            >
+              <Map size={14} className={viewMode === "map" ? "text-amber-500" : "text-slate-400"} />
+              <span>Interactive Map</span>
+            </button>
+            <button
+              onClick={() => setViewMode("list")}
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition-all ${viewMode === "list"
+                  ? "bg-white text-indigo-900 shadow-sm shadow-indigo-100 font-bold"
+                  : "text-slate-600 hover:text-slate-900"
+                }`}
+            >
+              <ListFilter size={14} className={viewMode === "list" ? "text-amber-500" : "text-slate-400"} />
+              <span>Directory List ({filteredLabs.length})</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -1937,11 +2520,10 @@ function LabTab({ lang }: { lang: Lang }) {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-xl font-medium whitespace-nowrap transition-all ${
-                selectedCategory === cat
+              className={`px-3 py-1.5 rounded-xl font-medium whitespace-nowrap transition-all ${selectedCategory === cat
                   ? "bg-indigo-900 text-white shadow-sm shadow-indigo-200"
                   : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -1982,33 +2564,30 @@ function LabTab({ lang }: { lang: Lang }) {
               <div className="flex items-center p-0.5 rounded-xl bg-slate-100 border border-slate-200 text-[11px] font-semibold">
                 <button
                   onClick={() => setMapTheme("voyager")}
-                  className={`px-2.5 py-1 rounded-lg transition-all ${
-                    mapTheme === "voyager"
+                  className={`px-2.5 py-1 rounded-lg transition-all ${mapTheme === "voyager"
                       ? "bg-white text-indigo-900 shadow-2xs font-bold"
                       : "text-slate-500 hover:text-slate-800"
-                  }`}
+                    }`}
                   title="High-detail street & city map"
                 >
                   🗺️ Street
                 </button>
                 <button
                   onClick={() => setMapTheme("osm")}
-                  className={`px-2.5 py-1 rounded-lg transition-all ${
-                    mapTheme === "osm"
+                  className={`px-2.5 py-1 rounded-lg transition-all ${mapTheme === "osm"
                       ? "bg-white text-indigo-900 shadow-2xs font-bold"
                       : "text-slate-500 hover:text-slate-800"
-                  }`}
+                    }`}
                   title="Official OpenStreetMap layer"
                 >
                   🌐 OSM
                 </button>
                 <button
                   onClick={() => setMapTheme("satellite")}
-                  className={`px-2.5 py-1 rounded-lg transition-all ${
-                    mapTheme === "satellite"
+                  className={`px-2.5 py-1 rounded-lg transition-all ${mapTheme === "satellite"
                       ? "bg-slate-900 text-white shadow-2xs font-bold"
                       : "text-slate-500 hover:text-slate-800"
-                  }`}
+                    }`}
                   title="Night dark mode map"
                 >
                   🌑 Night
@@ -2076,34 +2655,30 @@ function LabTab({ lang }: { lang: Lang }) {
 
                         {/* Custom Teardrop Map Pin Marker */}
                         <div
-                          className={`relative flex items-center justify-center transition-all duration-300 ${
-                            isSelected ? "scale-125 z-30" : "hover:scale-115 hover:z-20"
-                          }`}
+                          className={`relative flex items-center justify-center transition-all duration-300 ${isSelected ? "scale-125 z-30" : "hover:scale-115 hover:z-20"
+                            }`}
                         >
                           <div
-                            className={`w-8 h-8 rounded-full shadow-md flex items-center justify-center border-2 ${
-                              isSelected
+                            className={`w-8 h-8 rounded-full shadow-md flex items-center justify-center border-2 ${isSelected
                                 ? "bg-amber-400 border-white text-indigo-950 shadow-amber-500/50"
                                 : `bg-gradient-to-tr ${lab.pinColor} border-white text-white shadow-slate-900/40`
-                            }`}
+                              }`}
                           >
                             <FlaskConical size={14} />
                           </div>
                           {/* Pin Pointer Arrow */}
                           <div
-                            className={`absolute -bottom-1 w-2 h-2 rotate-45 ${
-                              isSelected ? "bg-amber-400" : "bg-indigo-600"
-                            }`}
+                            className={`absolute -bottom-1 w-2 h-2 rotate-45 ${isSelected ? "bg-amber-400" : "bg-indigo-600"
+                              }`}
                           />
                         </div>
 
                         {/* City Label Badge Pill */}
                         <div
-                          className={`mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold whitespace-nowrap transition-all duration-200 shadow-sm border ${
-                            isSelected
+                          className={`mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold whitespace-nowrap transition-all duration-200 shadow-sm border ${isSelected
                               ? "bg-amber-400 text-indigo-950 border-amber-500 scale-105"
                               : "bg-white/95 text-slate-800 border-slate-300 group-hover:bg-indigo-900 group-hover:text-white"
-                          }`}
+                            }`}
                         >
                           {lab.city}
                         </div>
@@ -2385,11 +2960,10 @@ function StatusTrackerTab({ lang }: { lang: Lang }) {
         {/* Feature 11: My Subscriptions toggle pill */}
         <button
           onClick={() => setOnlySubscribed(!onlySubscribed)}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all border ${
-            onlySubscribed
+          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all border ${onlySubscribed
               ? "bg-amber-500 text-white border-amber-600 shadow-sm"
               : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
-          }`}
+            }`}
         >
           <BookmarkCheck size={15} />
           <span>My Subscriptions ({subscriptions.length})</span>
@@ -2418,11 +2992,10 @@ function StatusTrackerTab({ lang }: { lang: Lang }) {
             <button
               key={sector}
               onClick={() => setSectorFilter(sector === sectorFilter ? "" : sector)}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
-                sectorFilter === sector
+              className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${sectorFilter === sector
                   ? "bg-indigo-600 text-white"
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
+                }`}
             >
               {sector}
             </button>
@@ -2458,11 +3031,10 @@ function StatusTrackerTab({ lang }: { lang: Lang }) {
                 </div>
                 <button
                   onClick={() => handleSubscribe(std.is_number)}
-                  className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all border ${
-                    isSubscribed
+                  className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all border ${isSubscribed
                       ? "bg-amber-500 text-white border-amber-600 shadow-sm"
                       : "bg-slate-50 text-slate-600 hover:bg-amber-50 hover:text-amber-700 border-slate-200 hover:border-amber-200"
-                  }`}
+                    }`}
                 >
                   <Bell size={14} />
                   {isSubscribed ? "Subscribed" : t.subscribe}
@@ -2506,9 +3078,8 @@ function SchemeGuideTab({ lang }: { lang: Lang }) {
           const isOpen = expanded === i;
           const Icon = scheme.icon;
           return (
-            <div key={i} className={`rounded-2xl bg-white border shadow-sm transition-all ${
-              isOpen ? `${scheme.border} shadow-md` : "border-slate-200 hover:shadow-md"
-            }`}>
+            <div key={i} className={`rounded-2xl bg-white border shadow-sm transition-all ${isOpen ? `${scheme.border} shadow-md` : "border-slate-200 hover:shadow-md"
+              }`}>
               <button
                 onClick={() => setExpanded(isOpen ? null : i)}
                 className="w-full flex items-center justify-between px-6 py-5 text-left"
@@ -2694,11 +3265,10 @@ function VerifyProductTab({ lang }: { lang: Lang }) {
               <h3 className="text-lg font-mono font-bold text-slate-900">{result.licenseNumber}</h3>
             </div>
             <span
-              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold ${
-                result.status === "Valid"
+              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold ${result.status === "Valid"
                   ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
                   : "bg-red-100 text-red-800 border border-red-300"
-              }`}
+                }`}
             >
               {result.status === "Valid" ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
               {result.status === "Valid" ? "VALID & CERTIFIED" : "EXPIRED / SUSPENDED"}
@@ -2731,9 +3301,128 @@ function VerifyProductTab({ lang }: { lang: Lang }) {
             </div>
           </div>
 
-          <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-[11px] text-amber-800 leading-relaxed">
-            *Notice: This verification card is simulated for hackathon demonstration. Official real-time license lookups are executed on the BIS Manak Online portal or the BIS CARE Mobile App.
-          </div>
+          {/* Official Verification Gateways */}
+          {(() => {
+            const isCRS = result.schemeType.includes("CRS");
+            const isHUID = result.schemeType.includes("HUID") || result.schemeType.includes("Hallmarking");
+
+            const primaryPortal = isCRS
+              ? {
+                  title: "Verify on BIS CRS Portal",
+                  url: "https://www.crsbis.in/BIS/products.do",
+                  domain: "crsbis.in",
+                  badge: "Electronics & IT Goods",
+                }
+              : isHUID
+              ? {
+                  title: "Verify HUID on BIS CARE App",
+                  url: "https://play.google.com/store/apps/details?id=com.bis.bisapp",
+                  domain: "play.google.com",
+                  badge: "6-Digit HUID Verification",
+                }
+              : {
+                  title: "Search Licence on BIS Manak Online",
+                  url: "https://www.manakonline.in/MANAK/ApplicationLicenceRelatedrpt",
+                  domain: "manakonline.in",
+                  badge: "ISI Mark & CM/L Directory",
+                };
+
+            return (
+              <div className="p-5 rounded-2xl bg-gradient-to-r from-indigo-50/80 via-white to-slate-50 border border-indigo-100 shadow-xs space-y-3.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-indigo-950 flex items-center gap-1.5">
+                    <ShieldCheck size={16} className="text-indigo-600" />
+                    <span>Official Government Verification Links</span>
+                  </span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                    Live Verified Portals
+                  </span>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  For real-time regulatory compliance checks, confirm this license directly on the official Bureau of Indian Standards portals:
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 pt-1">
+                  {/* Primary Scheme-Specific Link */}
+                  <a
+                    href={primaryPortal.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs hover:shadow transition-all group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between text-[10px] font-semibold text-indigo-200 mb-1">
+                        <span>{primaryPortal.badge}</span>
+                        <ExternalLink size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </div>
+                      <span className="text-xs font-bold block leading-snug">{primaryPortal.title}</span>
+                    </div>
+                    <span className="text-[10px] font-mono text-indigo-200/80 mt-2 block">
+                      {primaryPortal.domain}
+                    </span>
+                  </a>
+
+                  {/* Know Your Standards / eBIS */}
+                  <a
+                    href={isCRS ? "https://www.crsbis.in/BIS/index.do" : isHUID ? "https://www.nsws.gov.in" : "https://standards.bis.gov.in/website/know-your-standards"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-3 rounded-xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 shadow-2xs hover:shadow transition-all group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between text-[10px] font-semibold text-slate-400 mb-1">
+                        <span>{isCRS ? "CRS Dashboard" : isHUID ? "NSWS Registry" : "Official Standards"}</span>
+                        <ExternalLink size={12} className="text-slate-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </div>
+                      <span className="text-xs font-bold block leading-snug">
+                        {isCRS ? "BIS CRS Portal Home" : isHUID ? "NSWS Jeweller Portal" : "Know Your Standards"}
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-mono text-slate-400 mt-2 block">
+                      {isCRS ? "crsbis.in" : isHUID ? "nsws.gov.in" : "standards.bis.gov.in"}
+                    </span>
+                  </a>
+
+                  {/* Official BIS Lab Directory */}
+                  <a
+                    href="https://lims.bis.gov.in/Labs/SearchLab"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-3 rounded-xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 shadow-2xs hover:shadow transition-all group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between text-[10px] font-semibold text-slate-400 mb-1">
+                        <span>LIMS Directory</span>
+                        <ExternalLink size={12} className="text-slate-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </div>
+                      <span className="text-xs font-bold block leading-snug">Check BIS Lab Directory</span>
+                    </div>
+                    <span className="text-[10px] font-mono text-slate-400 mt-2 block">
+                      lims.bis.gov.in
+                    </span>
+                  </a>
+
+                  {/* BIS CARE Mobile App */}
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.bis.bisapp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-3 rounded-xl bg-amber-50 hover:bg-amber-100/80 text-amber-950 border border-amber-200 shadow-2xs hover:shadow transition-all group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between text-[10px] font-semibold text-amber-700 mb-1">
+                        <span>Official App</span>
+                        <ExternalLink size={12} className="text-amber-700 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </div>
+                      <span className="text-xs font-bold block leading-snug">Download BIS CARE App</span>
+                    </div>
+                    <span className="text-[10px] font-mono text-amber-700/80 mt-2 block">
+                      play.google.com
+                    </span>
+                  </a>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       )}
     </div>
@@ -2797,7 +3486,10 @@ function ReportIssueTab({ lang }: { lang: Lang }) {
       if (!res.ok || data.error) {
         throw new Error(data.error || "Failed to generate complaint");
       }
-      setDraftGrievance(data.complaintDraft);
+      const cleanDraft = (data.complaintDraft || "")
+        .replace(/^#{1,6}\s*/gm, "")
+        .replace(/#/g, "");
+      setDraftGrievance(cleanDraft);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to auto-draft grievance");
     } finally {
@@ -3001,6 +3693,41 @@ function ReportIssueTab({ lang }: { lang: Lang }) {
    ═══════════════════════════════════════════════════════ */
 function AdminInsightsTab({ lang, onClose }: { lang: Lang; onClose: () => void }) {
   const t = labels[lang];
+  const { user } = useAuth();
+  const [syncing, setSyncing] = useState(false);
+  const [syncResult, setSyncResult] = useState<{
+    syncedStandardsCount: number;
+    activeGazetteOrders: number;
+    syncTimestamp: string;
+    message: string;
+    recentGazetteNotices: Array<{
+      qcoName: string;
+      ministry: string;
+      gazetteId: string;
+      mandatoryDate: string;
+      standards: string[];
+      status: string;
+    }>;
+  } | null>(null);
+
+  const handleSyncStandards = async () => {
+    setSyncing(true);
+    try {
+      const res = await fetch("/api/standards/sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ triggerSource: user?.name || "Admin Officer" }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSyncResult(data);
+      }
+    } catch (e) {
+      console.error("Sync error:", e);
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   const mostSearchedStandards = [
     { is: "IS 18098:2022", title: "Ashvagandha & Herbal Extracts", count: 430, pct: 95, sector: "Ayush" },
@@ -3038,21 +3765,76 @@ function AdminInsightsTab({ lang, onClose }: { lang: Lang; onClose: () => void }
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 mb-1.5 border border-amber-200">
             <BarChart3 size={14} />
-            <span>Simulated Analytics Engine</span>
+            <span>Simulated Analytics & Ingestion Console</span>
           </div>
           <h2 className="text-2xl font-bold text-slate-900">{t.adminTitle}</h2>
           <p className="text-slate-500 mt-1 text-sm">
-            Telemetry metrics, search queries, and regulatory sector distributions across BIS Sahayak
+            {user?.name ? `Signed in: ${user.name} (${user.designation || "BIS Regulatory Officer"})` : "Telemetry metrics, live standards ingestion & QCO gazette synchronization"}
           </p>
         </div>
 
-        <button
-          onClick={onClose}
-          className="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-white transition-all shadow-sm"
-        >
-          Exit Admin View
-        </button>
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={handleSyncStandards}
+            disabled={syncing}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-white transition-all shadow-sm disabled:opacity-60"
+            title="Fetch latest gazetted QCO orders and catalog updates from BIS Manak Online"
+          >
+            <RefreshCw size={14} className={syncing ? "animate-spin" : ""} />
+            <span>{syncing ? "Syncing with Gazette..." : "Sync Official BIS Gazette"}</span>
+          </button>
+          <button
+            onClick={onClose}
+            className="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-white transition-all shadow-sm"
+          >
+            Exit Admin View
+          </button>
+        </div>
       </div>
+
+      {/* Official Standards Sync Result Banner */}
+      {syncResult && (
+        <div className="rounded-2xl bg-gradient-to-r from-amber-50 via-emerald-50/40 to-indigo-50/50 border border-amber-200/80 p-5 shadow-xs space-y-3 animate-fadeIn">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-200/60 pb-3">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 size={18} className="text-emerald-600 flex-shrink-0" />
+              <div>
+                <h4 className="font-bold text-xs sm:text-sm text-slate-900">
+                  Official Standards Registry Synchronized Successfully
+                </h4>
+                <p className="text-[11px] text-slate-500">
+                  {syncResult.message}
+                </p>
+              </div>
+            </div>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white border border-amber-200 text-amber-900">
+              Synced: {new Date(syncResult.syncTimestamp).toLocaleTimeString()}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+            {syncResult.recentGazetteNotices.map((q, idx) => (
+              <div key={idx} className="p-3 rounded-xl bg-white border border-slate-200/80 text-xs space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono font-bold text-indigo-700">{q.gazetteId}</span>
+                  <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                    {q.status}
+                  </span>
+                </div>
+                <h5 className="font-bold text-slate-800 line-clamp-1">{q.qcoName}</h5>
+                <p className="text-[10px] text-slate-500">{q.ministry}</p>
+                <div className="pt-1 flex flex-wrap gap-1">
+                  {q.standards.map((s, si) => (
+                    <span key={si} className="text-[9px] font-mono bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Top 4 KPI Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -3185,9 +3967,8 @@ function AdminInsightsTab({ lang, onClose }: { lang: Lang; onClose: () => void }
 function StatusBadge({ status }: { status: string }) {
   const isPublished = status === "Published";
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
-      isPublished ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"
-    }`}>
+    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${isPublished ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"
+      }`}>
       <span className={`w-1.5 h-1.5 rounded-full ${isPublished ? "bg-emerald-500" : "bg-amber-500"}`} />
       {status}
     </span>
@@ -3392,11 +4173,10 @@ function ChatBubble({ msg, simpleMode, lang }: { msg: ChatMessage; simpleMode?: 
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
-      <div className={`max-w-[85%] sm:max-w-[78%] rounded-2xl px-5 py-4 text-sm leading-relaxed ${
-        isUser
+      <div className={`max-w-[85%] sm:max-w-[78%] rounded-2xl px-5 py-4 text-sm leading-relaxed ${isUser
           ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-md shadow-amber-200/30"
           : "bg-white text-slate-700 border border-slate-200 shadow-sm"
-      }`}>
+        }`}>
         {/* Dynamic translation badge if active */}
         {showTranslation && translatedText && (
           <div className="mb-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/60">
@@ -3445,11 +4225,10 @@ function ChatBubble({ msg, simpleMode, lang }: { msg: ChatMessage; simpleMode?: 
                 <button
                   onClick={handleToggleSpeak}
                   title={isSpeaking ? "Stop speaking" : "Read aloud answer"}
-                  className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
-                    isSpeaking
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold border transition-all ${isSpeaking
                       ? "bg-amber-100 border-amber-300 text-amber-900 animate-pulse"
                       : "bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700"
-                  }`}
+                    }`}
                 >
                   {isSpeaking ? <VolumeX size={13} className="text-amber-700" /> : <Volume2 size={13} className="text-slate-600" />}
                   <span>{isSpeaking ? "Stop" : lang === "en" ? "Listen" : "सुनें"}</span>
@@ -3471,8 +4250,8 @@ function ChatBubble({ msg, simpleMode, lang }: { msg: ChatMessage; simpleMode?: 
                     {translating
                       ? (lang === "en" ? "Translating…" : "अनुवाद हो रहा है…")
                       : showTranslation
-                      ? (lang === "en" ? "Show Original" : "मूल पाठ दिखाएं")
-                      : (lang === "en" ? "Translate to Hindi" : "अंग्रेज़ी में अनुवाद")}
+                        ? (lang === "en" ? "Show Original" : "मूल पाठ दिखाएं")
+                        : (lang === "en" ? "Translate to Hindi" : "अंग्रेज़ी में अनुवाद")}
                   </span>
                 </button>
 
@@ -3489,8 +4268,8 @@ function ChatBubble({ msg, simpleMode, lang }: { msg: ChatMessage; simpleMode?: 
                           ? "Hide Visual Summary"
                           : "दृश्य सारांश छिपाएं"
                         : lang === "en"
-                        ? "Show Visual Summary"
-                        : "दृश्य सारांश देखें"}
+                          ? "Show Visual Summary"
+                          : "दृश्य सारांश देखें"}
                     </span>
                   </button>
                 )}
@@ -3558,8 +4337,8 @@ function ChatBubble({ msg, simpleMode, lang }: { msg: ChatMessage; simpleMode?: 
             <div className="leading-relaxed font-medium">
               {typeof msg.crossConflictWarning === "object" && msg.crossConflictWarning !== null
                 ? (msg.crossConflictWarning as { warningText?: string; reason?: string }).warningText ||
-                  (msg.crossConflictWarning as { warningText?: string; reason?: string }).reason ||
-                  JSON.stringify(msg.crossConflictWarning)
+                (msg.crossConflictWarning as { warningText?: string; reason?: string }).reason ||
+                JSON.stringify(msg.crossConflictWarning)
                 : String(msg.crossConflictWarning)}
             </div>
           </div>
@@ -3737,9 +4516,8 @@ function ChatInput({ value, onChange, onSubmit, placeholder, sendLabel, loading 
           onKeyDown={(e) => e.key === "Enter" && onSubmit()}
           placeholder={isListening ? "Listening… speak now into microphone" : placeholder}
           disabled={loading}
-          className={`flex-1 px-4 py-3 rounded-xl bg-slate-50 border text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300 transition-all disabled:opacity-50 ${
-            isListening ? "border-red-400 ring-2 ring-red-100 bg-red-50/40" : "border-slate-200"
-          }`}
+          className={`flex-1 px-4 py-3 rounded-xl bg-slate-50 border text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300 transition-all disabled:opacity-50 ${isListening ? "border-red-400 ring-2 ring-red-100 bg-red-50/40" : "border-slate-200"
+            }`}
         />
 
         {/* Voice Input (Speech-to-Text) Button */}
@@ -3748,11 +4526,10 @@ function ChatInput({ value, onChange, onSubmit, placeholder, sendLabel, loading 
           onClick={toggleListen}
           title={isListening ? "Stop listening" : "Voice dictation (Speech to text)"}
           disabled={loading}
-          className={`px-3.5 py-3 rounded-xl border transition-all flex items-center justify-center ${
-            isListening
+          className={`px-3.5 py-3 rounded-xl border transition-all flex items-center justify-center ${isListening
               ? "bg-red-500 hover:bg-red-600 text-white border-red-600 animate-pulse shadow-md shadow-red-200"
               : "bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200"
-          }`}
+            }`}
         >
           {isListening ? <MicOff size={17} /> : <Mic size={17} />}
         </button>
